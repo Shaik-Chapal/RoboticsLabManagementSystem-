@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DevSkill.Data" Version="8.0.43" />
+    <PackageReference Include="DevSkill.Extensions.Paginate" Version="8.0.26" />
+    <PackageReference Include="DevSkill.Extensions.Queryable" Version="8.0.29" />
+  </ItemGroup>
+
 </Project>
