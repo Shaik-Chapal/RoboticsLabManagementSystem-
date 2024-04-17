@@ -5,6 +5,12 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboticsLabManagementSystem", "RoboticsLabManagementSystem.csproj", "{2BE21F94-52A3-4617-8199-27C7DFEE4DBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboticsLabManagementSystem.Application", "..\RoboticsLabManagementSystem.Application\RoboticsLabManagementSystem.Application.csproj", "{4C3C4931-B295-4CD7-A813-123642A90304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboticsLabManagementSystem.Domain", "..\RoboticsLabManagementSystem.Domain\RoboticsLabManagementSystem.Domain.csproj", "{7E2D92D3-1207-45D0-9886-8FC87766D5C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboticsLabManagementSystem.Insfastructure", "..\RoboticsLabManagementSystem.Insfastructure\RoboticsLabManagementSystem.Insfastructure.csproj", "{AFBA6921-3AB4-4125-903D-BCAAC32F5C57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{2BE21F94-52A3-4617-8199-27C7DFEE4DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BE21F94-52A3-4617-8199-27C7DFEE4DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BE21F94-52A3-4617-8199-27C7DFEE4DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3C4931-B295-4CD7-A813-123642A90304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3C4931-B295-4CD7-A813-123642A90304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3C4931-B295-4CD7-A813-123642A90304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3C4931-B295-4CD7-A813-123642A90304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2D92D3-1207-45D0-9886-8FC87766D5C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2D92D3-1207-45D0-9886-8FC87766D5C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2D92D3-1207-45D0-9886-8FC87766D5C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2D92D3-1207-45D0-9886-8FC87766D5C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBA6921-3AB4-4125-903D-BCAAC32F5C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBA6921-3AB4-4125-903D-BCAAC32F5C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBA6921-3AB4-4125-903D-BCAAC32F5C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBA6921-3AB4-4125-903D-BCAAC32F5C57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
