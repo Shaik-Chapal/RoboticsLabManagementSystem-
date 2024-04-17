@@ -49,11 +49,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Branch> Branch { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Review> Reviews { get; set; }
+
 
     }
 }
