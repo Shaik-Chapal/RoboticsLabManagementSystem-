@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
     <UserSecretsId>aspnet-RoboticsLabManagementSystem-af51b520-93e3-44f4-b9f0-c3646ae86dcf</UserSecretsId>
   </PropertyGroup>
 
