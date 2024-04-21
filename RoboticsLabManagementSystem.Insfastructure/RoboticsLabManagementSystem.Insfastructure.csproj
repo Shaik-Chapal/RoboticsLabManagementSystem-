@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="DevSkill.Extensions.Paginate" Version="8.0.0" />
+    <PackageReference Include="DevSkill.Extensions.Queryable" Version="8.0.0" />
     <PackageReference Include="MailKit" Version="4.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
@@ -20,7 +22,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MimeKit" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.CodeDom" Version="8.0.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.10" />
@@ -29,13 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RoboticsLabManagementSystem.Application\RoboticsLabManagementSystem.Application.csproj" />
     <ProjectReference Include="..\RoboticsLabManagementSystem.Domain\RoboticsLabManagementSystem.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="EmailTemplates\PasswordResetEmailTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PasswordResetEmailTemplate.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +42,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PasswordResetEmailTemplate.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="EmailTemplates\PasswordResetEmailTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PasswordResetEmailTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

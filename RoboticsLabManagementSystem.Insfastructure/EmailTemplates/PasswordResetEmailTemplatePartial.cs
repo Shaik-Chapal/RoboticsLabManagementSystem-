@@ -1,4 +1,5 @@
 ﻿
+
 namespace RoboticsLabManagementSystem.Infrastructure.EmailTemplates
 {
     public partial class PasswordResetEmailTemplate
@@ -10,6 +11,11 @@ namespace RoboticsLabManagementSystem.Infrastructure.EmailTemplates
         {
             Name = name;
             Link = link;
+        }
+
+        internal string TransformText()
+        {
+            throw new NotImplementedException();
         }
     }
 }

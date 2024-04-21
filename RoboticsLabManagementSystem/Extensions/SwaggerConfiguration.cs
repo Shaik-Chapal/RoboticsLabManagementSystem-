@@ -12,14 +12,14 @@ namespace RoboticsLabManagementSystem.Api.Extensions
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "DevTeam Api Server",
+                    Title = "Robotics Lab Management System Api Server",
                     Version = "v1",
-                    Description = "DevTeam API by Devteam2",
+                    Description = "Robotics Lab Management System ",
                     Contact = new OpenApiContact
                     {
-                        Name = "Dev Skill",
-                        Email = "info@devskill.com",
-                        Url = new Uri("https://www.devskill.com")
+                        Name = "Chapal Shaik ",
+                        Email = "info@ChapalShaik .com",
+                        Url = new Uri("https://www.chapalshaik.com")
                     },
                     License = new OpenApiLicense
                     {

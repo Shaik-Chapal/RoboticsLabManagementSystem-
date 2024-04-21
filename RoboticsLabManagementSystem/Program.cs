@@ -1,24 +1,24 @@
-using Autofac.Extensions.DependencyInjection;
-using Autofac;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
-using RoboticsLabManagementSystem.Api.Extensions;
-using RoboticsLabManagementSystem.Api;
-using RoboticsLabManagementSystem.Application;
-using RoboticsLabManagementSystem.Domain.Utilities;
-using RoboticsLabManagementSystem.Infrastructure.Securities.Permissions;
-using RoboticsLabManagementSystem.Infrastructure.Extensions;
-using RoboticsLabManagementSystem.Infrastructure;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
-using System.Text;
 using Serilog;
 using Serilog.Events;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using RoboticsLabManagementSystem.Api;
+using RoboticsLabManagementSystem.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using RoboticsLabManagementSystem.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using RoboticsLabManagementSystem.Infrastructure.Securities.Permissions;
+using RoboticsLabManagementSystem.Api.Extensions;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using RoboticsLabManagementSystem.Application;
+using RoboticsLabManagementSystem.Domain.Utilities;
 using FluentValidation.AspNetCore;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -126,7 +126,7 @@ try
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevTeam API Server V1");
-            c.DocumentTitle = "Dev team2 Api";
+            c.DocumentTitle = "Robotics Lab Management System Api";
             c.DocExpansion(DocExpansion.None);
         });
     }
