@@ -1,6 +1,11 @@
 **/.vs
-**/bin
+
 **/obj
 **/*.user
 **/Logs/*
 **/.idea
+RoboticsLabManagementSystem.Domain/bin/Debug/net8.0/RoboticsLabManagementSystem.Domain.dll
+*.dll
+*.exe
+*.pdb
+*.json
