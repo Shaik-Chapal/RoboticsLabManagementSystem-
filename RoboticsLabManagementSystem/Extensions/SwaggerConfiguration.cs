@@ -56,7 +56,7 @@ namespace RoboticsLabManagementSystem.Api.Extensions
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
-                options.EnableAnnotations();
+                //options.EnableAnnotations();
             });
 
             return builder;
