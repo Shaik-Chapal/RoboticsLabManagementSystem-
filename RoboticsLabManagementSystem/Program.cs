@@ -89,12 +89,6 @@ try
         });
     });
 
-    //builder.Services.AddFileStorage(builder.Configuration,options =>
-    //{
-    //    options.Mode = FileStorageMode.AmazonS3;
-    //    options.WebRootPath = builder.Environment.WebRootPath;
-    //    options.ConfigureAmazonS3("S3Config");
-    //});
 
     builder.Services.AddCors(options =>
     {
@@ -125,7 +119,7 @@ try
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevTeam API Server V1");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Robotics Lab Management System API Server V1");
             c.DocumentTitle = "Robotics Lab Management System Api";
             c.DocExpansion(DocExpansion.None);
         });

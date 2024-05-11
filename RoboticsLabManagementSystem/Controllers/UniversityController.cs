@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using RoboticsLabManagementSystem.Api.RequestHandler.CompanyHandler;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,12 +8,12 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
     [ApiController]
     [Route("api/v1/[controller]")]
     
-    public class CompanyController: ControllerBase
+    public class UniversityController: ControllerBase
     {
         private readonly ILifetimeScope _scope;
-        private readonly ILogger<CompanyController> _logger;
+        private readonly ILogger<UniversityController> _logger;
 
-        public CompanyController(ILifetimeScope scope, ILogger<CompanyController> logger)
+        public UniversityController(ILifetimeScope scope, ILogger<UniversityController> logger)
         {
             _scope = scope;
             _logger = logger;

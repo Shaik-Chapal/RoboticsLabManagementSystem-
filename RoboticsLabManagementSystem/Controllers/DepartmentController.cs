@@ -9,12 +9,12 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class BranchController : ControllerBase
+    public class DepartmentController : ControllerBase
     {
         private readonly ILifetimeScope _scope;
-        private readonly ILogger<BranchController> _logger;
+        private readonly ILogger<DepartmentController> _logger;
 
-        public BranchController(ILifetimeScope scope, ILogger<BranchController> logger)
+        public DepartmentController(ILifetimeScope scope, ILogger<DepartmentController> logger)
         {
             _scope = scope;
             _logger = logger;
