@@ -65,13 +65,14 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Branch> Branch { get; set; }
        
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-        public DbSet<Equipment> Equipment { get; set; }
+       
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Research> Researches { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<FeaturedContent> FeaturedContents { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<Threshold> Thresholds { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
 
     }
 }

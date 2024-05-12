@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Infrastructure;
-using RoboticsLabManagementSystem.Domain.Entities;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
@@ -23,7 +23,7 @@ namespace RoboticsLabManagementSystem.Controllers
         {
             var lowStockEquipment = _context.Equipment
                 .Where(e => e.Quantity < e.Threshold.LowStockThreshold)
-                .Include(e => e.Threshold); // Ensure Threshold data is included
+                .Include(e => e.Threshold); 
             return Ok(lowStockEquipment);
         }
 
@@ -33,7 +33,7 @@ namespace RoboticsLabManagementSystem.Controllers
         {
             var lowStockPurchaseOrders = _context.PurchaseOrders
                 .Where(po => po.Quantity < po.Threshold.LowStockThreshold)
-                .Include(po => po.Threshold); // Ensure Threshold data is included
+                .Include(po => po.Threshold); 
             return Ok(lowStockPurchaseOrders);
         }
     }

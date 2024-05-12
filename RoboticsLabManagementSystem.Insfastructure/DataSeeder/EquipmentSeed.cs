@@ -16,7 +16,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
         {
             List<Equipment> equipmentList = new List<Equipment>();
 
-            // Add sample equipment data
+           
             Equipment equipment1 = new Equipment
             {
                 EquipmentID = Guid.NewGuid(),
