@@ -70,6 +70,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Research> Researches { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<FeaturedContent> FeaturedContents { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<Threshold> Thresholds { get; set; }
 
     }
 }

@@ -18,5 +18,6 @@ namespace RoboticsLabManagementSystem.Domain.Entities
         public string ModelNumber { get; set; }
         public string Company { get; set; }
         public string Origin { get; set; }
+        public Threshold Threshold { get; set; }
     }
 }
