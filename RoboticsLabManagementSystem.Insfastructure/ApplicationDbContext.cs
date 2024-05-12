@@ -39,6 +39,20 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());
             modelBuilder.Entity<Company>().HasData(CompanySeed.Claims());
             modelBuilder.Entity<Equipment>().HasData(EquipmentSeed.GetSeedData());
+            // Seed Research
+            modelBuilder.Entity<Research>().HasData(
+                ResearchSeed.GetSeedData()
+            );
+
+            // Seed Blog
+            modelBuilder.Entity<Blog>().HasData(
+                BlogSeed.GetSeedData()
+            );
+
+            // Seed FeaturedContent
+            modelBuilder.Entity<FeaturedContent>().HasData(
+                FeaturedContentSeed.GetSeedData()
+            );
 
             modelBuilder.Entity<Company>()
                 .HasMany(x => x.Branches)
@@ -52,8 +66,10 @@ namespace RoboticsLabManagementSystem.Infrastructure
        
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
-
-        //Add-Migration EquipmentAdd12
+        public DbSet<Supplier> Supplier { get; set; }
+        public DbSet<Research> Researches { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<FeaturedContent> FeaturedContents { get; set; }
 
     }
 }

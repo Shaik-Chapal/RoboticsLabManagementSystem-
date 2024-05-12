@@ -1,33 +1,103 @@
-﻿using Autofac;
-using Microsoft.AspNetCore.Mvc;
-using RoboticsLabManagementSystem.Api.Controllers.Admin;
-using RoboticsLabManagementSystem.Api.RequestHandler.BranchHandler;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RoboticsLabManagementSystem.Domain.Entities;
+using RoboticsLabManagementSystem.Infrastructure;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
-    [Route("api/v1/[controller]")]
+
+    [Route("api/[controller]")]
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private readonly ILifetimeScope _scope;
-        private readonly ILogger<DepartmentController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public BlogController(ILifetimeScope scope, ILogger<DepartmentController> logger)
+        public BlogController(ApplicationDbContext context)
         {
-            _scope = scope;
-            _logger = logger;
+            _context = context;
         }
 
-
-        [SwaggerResponse(StatusCodes.Status200OK, "Branch information retrieved successfully", typeof(GetBranchRequestHandler))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Branch information not found", typeof(IResult))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the process", typeof(IResult))]
-        [HttpGet("index")]
-        public async Task<IActionResult> Index()
+        // GET: api/Blog
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
         {
-            return Ok();
+            return await _context.Blogs.ToListAsync();
         }
 
+        // GET: api/Blog/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Blog>> GetBlog(Guid id)
+        {
+            var blog = await _context.Blogs.FindAsync(id);
+
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            return blog;
+        }
+
+        // POST: api/Blog
+        [HttpPost]
+        public async Task<ActionResult<Blog>> PostBlog(Blog blog)
+        {
+            _context.Blogs.Add(blog);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetBlog), new { id = blog.BlogId }, blog);
+        }
+
+        // PUT: api/Blog/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBlog(Guid id, Blog blog)
+        {
+            if (id != blog.BlogId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(blog).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BlogExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Blog/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBlog(Guid id)
+        {
+            var blog = await _context.Blogs.FindAsync(id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            _context.Blogs.Remove(blog);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool BlogExists(Guid id)
+        {
+            return _context.Blogs.Any(e => e.BlogId == id);
+        }
     }
+
 }

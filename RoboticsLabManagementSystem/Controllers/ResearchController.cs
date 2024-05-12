@@ -1,26 +1,104 @@
-﻿using Autofac;
-using Microsoft.AspNetCore.Mvc;
-using RoboticsLabManagementSystem.Api.Controllers.Admin;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RoboticsLabManagementSystem.Domain.Entities;
+using RoboticsLabManagementSystem.Infrastructure;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
-    [Route("api/v1/[controller]")]
+
+
+    [Route("api/[controller]")]
     [ApiController]
     public class ResearchController : ControllerBase
     {
-        private readonly ILifetimeScope _scope;
-        private readonly ILogger<DepartmentController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public ResearchController(ILifetimeScope scope, ILogger<DepartmentController> logger)
+        public ResearchController(ApplicationDbContext context)
         {
-            _scope = scope;
-            _logger = logger;
+            _context = context;
         }
 
-        [HttpGet("index")]
-        public async Task<IActionResult> Index()
+        // GET: api/Research
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Research>>> GetResearches()
         {
-            return Ok();
+            return await _context.Researches.ToListAsync();
+        }
+
+        // GET: api/Research/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Research>> GetResearch(Guid id)
+        {
+            var research = await _context.Researches.FindAsync(id);
+
+            if (research == null)
+            {
+                return NotFound();
+            }
+
+            return research;
+        }
+
+        // POST: api/Research
+        [HttpPost]
+        public async Task<ActionResult<Research>> PostResearch(Research research)
+        {
+            _context.Researches.Add(research);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetResearch), new { id = research.ResearchId }, research);
+        }
+
+        // PUT: api/Research/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutResearch(Guid id, Research research)
+        {
+            if (id != research.ResearchId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(research).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ResearchExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Research/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteResearch(Guid id)
+        {
+            var research = await _context.Researches.FindAsync(id);
+            if (research == null)
+            {
+                return NotFound();
+            }
+
+            _context.Researches.Remove(research);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ResearchExists(Guid id)
+        {
+            return _context.Researches.Any(e => e.ResearchId == id);
         }
     }
+
 }
