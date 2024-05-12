@@ -12,8 +12,8 @@ using RoboticsLabManagementSystem.Infrastructure;
 namespace RoboticsLabManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240421050031_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240512085814_EquipmentAdd12")]
+    partial class EquipmentAdd12
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,6 +95,79 @@ namespace RoboticsLabManagementSystem.Migrations
                             Name = "Oulu University of Applied Sciences",
                             Phone = "+358 29 4480000",
                             Website = "https://www.oulu.fi/en"
+                        });
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Equipment", b =>
+                {
+                    b.Property<Guid>("EquipmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EquipmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastMaintenanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModelNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("EquipmentID");
+
+                    b.ToTable("Equipment");
+
+                    b.HasData(
+                        new
+                        {
+                            EquipmentID = new Guid("71ca29e0-a15f-48ca-a105-2c4bd0ba27be"),
+                            Company = "Oulu University of Applied Sciences",
+                            Description = "High-powered microscope for lab use",
+                            EquipmentName = "Microscope",
+                            LastMaintenanceDate = new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Location = "Lab Room A",
+                            Manufacturer = "Company X",
+                            ModelNumber = "ABC123",
+                            Origin = "Finland",
+                            Quantity = 5
+                        },
+                        new
+                        {
+                            EquipmentID = new Guid("c24089c4-1a0f-4908-baa5-27c7bda97c78"),
+                            Company = "Oulu University of Applied Sciences",
+                            Description = "Analytical instrument for measuring absorbance",
+                            EquipmentName = "Spectrophotometer",
+                            LastMaintenanceDate = new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Location = "Lab Room B",
+                            Manufacturer = "Company Y",
+                            ModelNumber = "XYZ789",
+                            Origin = "Finland",
+                            Quantity = 3
                         });
                 });
 
@@ -220,13 +293,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a20ef5a7-0dbc-4e95-9413-79c3ca1323a7",
+                            ConcurrencyStamp = "327d503b-af25-4b04-ab12-9f01b693b0d6",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMtutwvTooaMeCzLrKwcHylFQbFtllRATB5fhpbFonayKFUmjsAHFC0YA/eKUWq89A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBCa6AfOia2Z7hTg1/C47OeiCAbxzHSlKGvh575aKmEtlgsqkAElf9EHMEjLVFaAdw==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "BFCC7B453A8B4B6C8A4C93EE28A3B4A8",
@@ -237,13 +310,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c5251dfd-fd81-4eba-8b92-786087834366",
+                            ConcurrencyStamp = "00b4201b-d6e4-479e-8339-4cc4e2cbd0fa",
                             Email = "manager@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOSbQB4fkJYmXmAjzCvIzTaIFUJ2zHU+hCWI1PXa3Nz80eQyQSWw5wqMk0dzlqdnNA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPSo+ZAmMWfhECjSNIk85KrBr21kTtBKEiKplkDV5WRtOmKgj4k9U+201nCwT3M/sg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "FC37C84E276C4D978DF9054129D0CB23",

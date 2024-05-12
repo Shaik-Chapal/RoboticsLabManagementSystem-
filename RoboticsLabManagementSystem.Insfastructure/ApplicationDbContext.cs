@@ -4,6 +4,7 @@ using RoboticsLabManagementSystem.Infrastructure.DataSeeder;
 using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RoboticsLabManagementSystem.Insfastructure.DataSeeder;
 
 namespace RoboticsLabManagementSystem.Infrastructure
 {
@@ -37,6 +38,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<ApplicationUser>().HasData(UserSeed.Users());
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());
             modelBuilder.Entity<Company>().HasData(CompanySeed.Claims());
+            modelBuilder.Entity<Equipment>().HasData(EquipmentSeed.GetSeedData());
 
             modelBuilder.Entity<Company>()
                 .HasMany(x => x.Branches)
@@ -47,9 +49,11 @@ namespace RoboticsLabManagementSystem.Infrastructure
         }
         public DbSet<Company> Company { get; set; }
         public DbSet<Branch> Branch { get; set; }
+       
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
 
-
+        //Add-Migration EquipmentAdd12
 
     }
 }

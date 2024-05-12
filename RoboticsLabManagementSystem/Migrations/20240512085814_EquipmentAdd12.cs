@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RoboticsLabManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class EquipmentAdd12 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,6 +67,26 @@ namespace RoboticsLabManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Company", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    EquipmentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EquipmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastMaintenanceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.EquipmentID);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,14 +221,23 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "a20ef5a7-0dbc-4e95-9413-79c3ca1323a7", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEMtutwvTooaMeCzLrKwcHylFQbFtllRATB5fhpbFonayKFUmjsAHFC0YA/eKUWq89A==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "c5251dfd-fd81-4eba-8b92-786087834366", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAEOSbQB4fkJYmXmAjzCvIzTaIFUJ2zHU+hCWI1PXa3Nz80eQyQSWw5wqMk0dzlqdnNA==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "327d503b-af25-4b04-ab12-9f01b693b0d6", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEBCa6AfOia2Z7hTg1/C47OeiCAbxzHSlKGvh575aKmEtlgsqkAElf9EHMEjLVFaAdw==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "00b4201b-d6e4-479e-8339-4cc4e2cbd0fa", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAEPSo+ZAmMWfhECjSNIk85KrBr21kTtBKEiKplkDV5WRtOmKgj4k9U+201nCwT3M/sg==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Company",
                 columns: new[] { "Id", "Address", "Email", "LogoUrl", "Name", "Phone", "Website" },
                 values: new object[] { new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "Pentti Kaiteran katu 1, 90570 Oulu, Finland", "info@OuluUniversity.com", null, "Oulu University of Applied Sciences", "+358 29 4480000", "https://www.oulu.fi/en" });
+
+            migrationBuilder.InsertData(
+                table: "Equipment",
+                columns: new[] { "EquipmentID", "Company", "Description", "EquipmentName", "LastMaintenanceDate", "Location", "Manufacturer", "ModelNumber", "Origin", "Quantity" },
+                values: new object[,]
+                {
+                    { new Guid("71ca29e0-a15f-48ca-a105-2c4bd0ba27be"), "Oulu University of Applied Sciences", "High-powered microscope for lab use", "Microscope", new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lab Room A", "Company X", "ABC123", "Finland", 5 },
+                    { new Guid("c24089c4-1a0f-4908-baa5-27c7bda97c78"), "Oulu University of Applied Sciences", "Analytical instrument for measuring absorbance", "Spectrophotometer", new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lab Room B", "Company Y", "XYZ789", "Finland", 3 }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserClaims",
@@ -284,6 +313,9 @@ namespace RoboticsLabManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Branch");
+
+            migrationBuilder.DropTable(
+                name: "Equipment");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
