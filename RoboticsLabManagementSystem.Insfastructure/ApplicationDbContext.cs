@@ -38,7 +38,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<ApplicationUser>().HasData(UserSeed.Users());
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());
             modelBuilder.Entity<Company>().HasData(CompanySeed.Claims());
-            modelBuilder.Entity<Equipment>().HasData(EquipmentSeed.GetSeedData());
+           // modelBuilder.Entity<Equipment>().HasData(EquipmentSeed.GetSeedData());
             // Seed Research
             modelBuilder.Entity<Research>().HasData(
                 ResearchSeed.GetSeedData()
@@ -53,7 +53,13 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<FeaturedContent>().HasData(
                 FeaturedContentSeed.GetSeedData()
             );
+            modelBuilder.Entity<PurchaseOrder>()
+           .Property(p => p.Price)
+           .HasColumnType("decimal(18, 2)");
 
+            modelBuilder.Entity<FeaturedContent>()
+          .HasKey(f => f.ContentId);
+            //Add-Migration InitialCreate123
             modelBuilder.Entity<Company>()
                 .HasMany(x => x.Branches)
                 .WithOne(y => y.Company)

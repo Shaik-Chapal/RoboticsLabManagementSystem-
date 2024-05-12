@@ -22,6 +22,56 @@ namespace RoboticsLabManagementSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Blog", b =>
+                {
+                    b.Property<Guid>("BlogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ThumbnailImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BlogId");
+
+                    b.ToTable("Blogs");
+
+                    b.HasData(
+                        new
+                        {
+                            BlogId = new Guid("35f23618-dca5-478c-8699-54b8cd985f72"),
+                            Author = "Alice Johnson",
+                            Content = "Content of the blog post 1",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2766),
+                            ThumbnailImage = "blog1.jpg",
+                            Title = "Sample Blog Title 1"
+                        },
+                        new
+                        {
+                            BlogId = new Guid("50059fcb-9d89-4655-9c76-d79bd9ce08e7"),
+                            Author = "Bob Williams",
+                            Content = "Content of the blog post 2",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2778),
+                            ThumbnailImage = "blog2.jpg",
+                            Title = "Sample Blog Title 2"
+                        });
+                });
+
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Company.Branch", b =>
                 {
                     b.Property<Guid>("Id")
@@ -135,37 +185,222 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ThresholdId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("EquipmentID");
 
+                    b.HasIndex("SupplierId");
+
+                    b.HasIndex("ThresholdId");
+
                     b.ToTable("Equipment");
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.FeaturedContent", b =>
+                {
+                    b.Property<Guid>("ContentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullContentLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThumbnailImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ContentId");
+
+                    b.ToTable("FeaturedContents");
 
                     b.HasData(
                         new
                         {
-                            EquipmentID = new Guid("71ca29e0-a15f-48ca-a105-2c4bd0ba27be"),
-                            Company = "Oulu University of Applied Sciences",
-                            Description = "High-powered microscope for lab use",
-                            EquipmentName = "Microscope",
-                            LastMaintenanceDate = new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "Lab Room A",
-                            Manufacturer = "Company X",
-                            ModelNumber = "ABC123",
-                            Origin = "Finland",
-                            Quantity = 5
+                            ContentId = new Guid("76cd4703-40fb-4ea6-ba8c-0c22aec9776d"),
+                            Author = "Eva Brown",
+                            ContentType = "Blog",
+                            FullContentLink = "http://example.com/featured1",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2976),
+                            Summary = "Summary of the featured content 1",
+                            ThumbnailImage = "featured1.jpg",
+                            Title = "Sample Featured Content Title 1"
                         },
                         new
                         {
-                            EquipmentID = new Guid("c24089c4-1a0f-4908-baa5-27c7bda97c78"),
-                            Company = "Oulu University of Applied Sciences",
-                            Description = "Analytical instrument for measuring absorbance",
-                            EquipmentName = "Spectrophotometer",
-                            LastMaintenanceDate = new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "Lab Room B",
-                            Manufacturer = "Company Y",
-                            ModelNumber = "XYZ789",
-                            Origin = "Finland",
-                            Quantity = 3
+                            ContentId = new Guid("158e89c1-8fdd-40f0-85fd-4ce8a2bcf850"),
+                            Author = "David Miller",
+                            ContentType = "Research",
+                            FullContentLink = "http://example.com/featured2",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2988),
+                            Summary = "Summary of the featured content 2",
+                            ThumbnailImage = "featured2.jpg",
+                            Title = "Sample Featured Content Title 2"
                         });
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.PurchaseOrder", b =>
+                {
+                    b.Property<Guid>("PurchaseOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ThresholdId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PurchaseOrderId");
+
+                    b.HasIndex("ThresholdId");
+
+                    b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Research", b =>
+                {
+                    b.Property<Guid>("ResearchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Authors")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullTextLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThumbnailImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ResearchId");
+
+                    b.ToTable("Researches");
+
+                    b.HasData(
+                        new
+                        {
+                            ResearchId = new Guid("2f75233a-1988-43fb-bac2-3f8c1d9936ae"),
+                            Authors = "John Doe",
+                            FullTextLink = "http://example.com/research1",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2342),
+                            Summary = "Summary of the research article 1",
+                            ThumbnailImage = "research1.jpg",
+                            Title = "Sample Research Title 1"
+                        },
+                        new
+                        {
+                            ResearchId = new Guid("26628c32-ab7b-4f14-a66e-db6bda33a541"),
+                            Authors = "Jane Smith",
+                            FullTextLink = "http://example.com/research2",
+                            PublicationDate = new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2370),
+                            Summary = "Summary of the research article 2",
+                            ThumbnailImage = "research2.jpg",
+                            Title = "Sample Research Title 2"
+                        });
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Supplier", b =>
+                {
+                    b.Property<Guid>("SupplierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPerson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SupplierId");
+
+                    b.ToTable("Supplier");
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Threshold", b =>
+                {
+                    b.Property<Guid>("ThresholdId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("LowStockThreshold")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotificationMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ThresholdId");
+
+                    b.ToTable("Thresholds");
                 });
 
             modelBuilder.Entity("RoboticsLabManagementSystem.Infrastructure.Features.Membership.ApplicationRole", b =>
@@ -290,13 +525,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "327d503b-af25-4b04-ab12-9f01b693b0d6",
+                            ConcurrencyStamp = "0566fc9e-2a49-4ca0-9dd3-31c1abee639b",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBCa6AfOia2Z7hTg1/C47OeiCAbxzHSlKGvh575aKmEtlgsqkAElf9EHMEjLVFaAdw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJqwmHLy8y5KxGTEdwjtH2dJyoVOpyxlTGIelzWa5hhS7BmrC1jpp4axXQmb9rm/Bw==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "BFCC7B453A8B4B6C8A4C93EE28A3B4A8",
@@ -307,13 +542,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "00b4201b-d6e4-479e-8339-4cc4e2cbd0fa",
+                            ConcurrencyStamp = "22dbae19-2a54-4f81-a15b-c6be135ac428",
                             Email = "manager@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPSo+ZAmMWfhECjSNIk85KrBr21kTtBKEiKplkDV5WRtOmKgj4k9U+201nCwT3M/sg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECL1nFJLb3SmBUPutPPPBlr2Z4bxU4I7Sh6DlSZQEe7ncbvs4hpn7OuMnsqFE3rpwA==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "FC37C84E276C4D978DF9054129D0CB23",
@@ -428,6 +663,32 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Equipment", b =>
+                {
+                    b.HasOne("RoboticsLabManagementSystem.Domain.Entities.Supplier", null)
+                        .WithMany("EquipmentSupplied")
+                        .HasForeignKey("SupplierId");
+
+                    b.HasOne("RoboticsLabManagementSystem.Domain.Entities.Threshold", "Threshold")
+                        .WithMany()
+                        .HasForeignKey("ThresholdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Threshold");
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.PurchaseOrder", b =>
+                {
+                    b.HasOne("RoboticsLabManagementSystem.Domain.Entities.Threshold", "Threshold")
+                        .WithMany()
+                        .HasForeignKey("ThresholdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Threshold");
+                });
+
             modelBuilder.Entity("RoboticsLabManagementSystem.Infrastructure.Features.Membership.ApplicationRoleClaim", b =>
                 {
                     b.HasOne("RoboticsLabManagementSystem.Infrastructure.Features.Membership.ApplicationRole", null)
@@ -482,6 +743,11 @@ namespace RoboticsLabManagementSystem.Migrations
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Company.Company", b =>
                 {
                     b.Navigation("Branches");
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Supplier", b =>
+                {
+                    b.Navigation("EquipmentSupplied");
                 });
 #pragma warning restore 612, 618
         }

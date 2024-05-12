@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RoboticsLabManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class EquipmentAdd12 : Migration
+    public partial class InitialCreate123 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,6 +53,22 @@ namespace RoboticsLabManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    BlogId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThumbnailImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.BlogId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Company",
                 columns: table => new
                 {
@@ -70,23 +86,69 @@ namespace RoboticsLabManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipment",
+                name: "FeaturedContents",
                 columns: table => new
                 {
-                    EquipmentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EquipmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastMaintenanceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ContentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullContentLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThumbnailImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipment", x => x.EquipmentID);
+                    table.PrimaryKey("PK_FeaturedContents", x => x.ContentId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Researches",
+                columns: table => new
+                {
+                    ResearchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Authors = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullTextLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThumbnailImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Researches", x => x.ResearchId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Supplier",
+                columns: table => new
+                {
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactPerson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Supplier", x => x.SupplierId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Thresholds",
+                columns: table => new
+                {
+                    ThresholdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LowStockThreshold = table.Column<int>(type: "int", nullable: false),
+                    NotificationMethod = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Thresholds", x => x.ThresholdId);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,13 +278,77 @@ namespace RoboticsLabManagementSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    EquipmentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EquipmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastMaintenanceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThresholdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.EquipmentID);
+                    table.ForeignKey(
+                        name: "FK_Equipment_Supplier_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Supplier",
+                        principalColumn: "SupplierId");
+                    table.ForeignKey(
+                        name: "FK_Equipment_Thresholds_ThresholdId",
+                        column: x => x.ThresholdId,
+                        principalTable: "Thresholds",
+                        principalColumn: "ThresholdId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaseOrders",
+                columns: table => new
+                {
+                    PurchaseOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ThresholdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseOrders", x => x.PurchaseOrderId);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrders_Thresholds_ThresholdId",
+                        column: x => x.ThresholdId,
+                        principalTable: "Thresholds",
+                        principalColumn: "ThresholdId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "327d503b-af25-4b04-ab12-9f01b693b0d6", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEBCa6AfOia2Z7hTg1/C47OeiCAbxzHSlKGvh575aKmEtlgsqkAElf9EHMEjLVFaAdw==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "00b4201b-d6e4-479e-8339-4cc4e2cbd0fa", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAEPSo+ZAmMWfhECjSNIk85KrBr21kTtBKEiKplkDV5WRtOmKgj4k9U+201nCwT3M/sg==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "0566fc9e-2a49-4ca0-9dd3-31c1abee639b", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEJqwmHLy8y5KxGTEdwjtH2dJyoVOpyxlTGIelzWa5hhS7BmrC1jpp4axXQmb9rm/Bw==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "22dbae19-2a54-4f81-a15b-c6be135ac428", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAECL1nFJLb3SmBUPutPPPBlr2Z4bxU4I7Sh6DlSZQEe7ncbvs4hpn7OuMnsqFE3rpwA==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Blogs",
+                columns: new[] { "BlogId", "Author", "Content", "PublicationDate", "ThumbnailImage", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("35f23618-dca5-478c-8699-54b8cd985f72"), "Alice Johnson", "Content of the blog post 1", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2766), "blog1.jpg", "Sample Blog Title 1" },
+                    { new Guid("50059fcb-9d89-4655-9c76-d79bd9ce08e7"), "Bob Williams", "Content of the blog post 2", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2778), "blog2.jpg", "Sample Blog Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -231,12 +357,21 @@ namespace RoboticsLabManagementSystem.Migrations
                 values: new object[] { new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "Pentti Kaiteran katu 1, 90570 Oulu, Finland", "info@OuluUniversity.com", null, "Oulu University of Applied Sciences", "+358 29 4480000", "https://www.oulu.fi/en" });
 
             migrationBuilder.InsertData(
-                table: "Equipment",
-                columns: new[] { "EquipmentID", "Company", "Description", "EquipmentName", "LastMaintenanceDate", "Location", "Manufacturer", "ModelNumber", "Origin", "Quantity" },
+                table: "FeaturedContents",
+                columns: new[] { "ContentId", "Author", "ContentType", "FullContentLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("71ca29e0-a15f-48ca-a105-2c4bd0ba27be"), "Oulu University of Applied Sciences", "High-powered microscope for lab use", "Microscope", new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lab Room A", "Company X", "ABC123", "Finland", 5 },
-                    { new Guid("c24089c4-1a0f-4908-baa5-27c7bda97c78"), "Oulu University of Applied Sciences", "Analytical instrument for measuring absorbance", "Spectrophotometer", new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lab Room B", "Company Y", "XYZ789", "Finland", 3 }
+                    { new Guid("158e89c1-8fdd-40f0-85fd-4ce8a2bcf850"), "David Miller", "Research", "http://example.com/featured2", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2988), "Summary of the featured content 2", "featured2.jpg", "Sample Featured Content Title 2" },
+                    { new Guid("76cd4703-40fb-4ea6-ba8c-0c22aec9776d"), "Eva Brown", "Blog", "http://example.com/featured1", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2976), "Summary of the featured content 1", "featured1.jpg", "Sample Featured Content Title 1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Researches",
+                columns: new[] { "ResearchId", "Authors", "FullTextLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("26628c32-ab7b-4f14-a66e-db6bda33a541"), "Jane Smith", "http://example.com/research2", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2370), "Summary of the research article 2", "research2.jpg", "Sample Research Title 2" },
+                    { new Guid("2f75233a-1988-43fb-bac2-3f8c1d9936ae"), "John Doe", "http://example.com/research1", new DateTime(2024, 5, 12, 19, 40, 55, 394, DateTimeKind.Local).AddTicks(2342), "Summary of the research article 1", "research1.jpg", "Sample Research Title 1" }
                 });
 
             migrationBuilder.InsertData(
@@ -291,6 +426,21 @@ namespace RoboticsLabManagementSystem.Migrations
                 name: "IX_Branch_CompanyId",
                 table: "Branch",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipment_SupplierId",
+                table: "Equipment",
+                column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipment_ThresholdId",
+                table: "Equipment",
+                column: "ThresholdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseOrders_ThresholdId",
+                table: "PurchaseOrders",
+                column: "ThresholdId");
         }
 
         /// <inheritdoc />
@@ -312,10 +462,22 @@ namespace RoboticsLabManagementSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Blogs");
+
+            migrationBuilder.DropTable(
                 name: "Branch");
 
             migrationBuilder.DropTable(
                 name: "Equipment");
+
+            migrationBuilder.DropTable(
+                name: "FeaturedContents");
+
+            migrationBuilder.DropTable(
+                name: "PurchaseOrders");
+
+            migrationBuilder.DropTable(
+                name: "Researches");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -325,6 +487,12 @@ namespace RoboticsLabManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Company");
+
+            migrationBuilder.DropTable(
+                name: "Supplier");
+
+            migrationBuilder.DropTable(
+                name: "Thresholds");
         }
     }
 }
