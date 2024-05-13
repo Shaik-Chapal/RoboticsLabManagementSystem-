@@ -95,11 +95,12 @@ try
         options.AddPolicy("AllowSites",
             builder =>
             {
-                builder.WithOrigins("http://localhost:4200", "https://localhost:7307", "https://localhost:7070")
-                .AllowAnyMethod()
-                   .AllowAnyHeader();
+                builder.WithOrigins("http://localhost:4200", "https://localhost:7307", "https://localhost:7070", "http://localhost:5173")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
     });
+
 
     builder.Services.AddSingleton<IAuthorizationHandler, AdminManagerRequirementHandler>();
 

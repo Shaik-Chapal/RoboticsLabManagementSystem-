@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -12,6 +13,7 @@ using System.Text;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
+    [EnableCors("AllowSites")]
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
