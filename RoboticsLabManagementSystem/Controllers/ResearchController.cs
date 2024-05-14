@@ -19,11 +19,20 @@ namespace RoboticsLabManagementSystem.Controllers
         }
 
         // GET: api/Research
-        [HttpGet]
+        [HttpGet("Research")]
         public async Task<ActionResult<IEnumerable<Research>>> GetResearches()
         {
             return await _context.Researches.ToListAsync();
         }
+
+        // GET: api/Research
+        [HttpGet("TopTwoResearchs")]
+        public async Task<ActionResult<IEnumerable<Research>>> GetTopTwoResearches()
+        {
+            var topTwoResearchs = await _context.Researches.Take(2).ToListAsync();
+            return topTwoResearchs;
+        }
+
 
         // GET: api/Research/5
         [HttpGet("{id}")]

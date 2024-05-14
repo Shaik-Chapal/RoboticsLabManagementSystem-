@@ -19,11 +19,21 @@ namespace RoboticsLabManagementSystem.Controllers
         }
 
         // GET: api/FeaturedContent
-        [HttpGet]
+        [HttpGet("FeaturedContents")]
         public async Task<ActionResult<IEnumerable<FeaturedContent>>> GetFeaturedContents()
         {
             return await _context.FeaturedContents.ToListAsync();
         }
+
+
+        // GET: api/FeaturedContents
+        [HttpGet("TopTwoFeaturedContents")]
+        public async Task<ActionResult<IEnumerable<FeaturedContent>>> GetTopTwoFeaturedContentes()
+        {
+            var topTwoFeaturedContents = await _context.FeaturedContents.Take(2).ToListAsync();
+            return topTwoFeaturedContents;
+        }
+
 
         // GET: api/FeaturedContent/5
         [HttpGet("{id}")]

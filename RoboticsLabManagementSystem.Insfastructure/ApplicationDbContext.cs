@@ -70,6 +70,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Company> Company { get; set; }
         public DbSet<Branch> Branch { get; set; }
        
+
+
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
        
         public DbSet<Supplier> Supplier { get; set; }

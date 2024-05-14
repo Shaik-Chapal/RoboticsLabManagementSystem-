@@ -18,10 +18,17 @@ namespace RoboticsLabManagementSystem.Controllers
         }
 
         // GET: api/Blog
-        [HttpGet]
+        [HttpGet("Blogs")]
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
         {
             return await _context.Blogs.ToListAsync();
+        }
+        // GET: api/Blog
+        [HttpGet("TopTwoBlogs")]
+        public async Task<ActionResult<IEnumerable<Blog>>> GetTopTwoBlogs()
+        {
+            var topTwoBlogs = await _context.Blogs.Take(2).ToListAsync();
+            return topTwoBlogs;
         }
 
         // GET: api/Blog/5
