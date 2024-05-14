@@ -8,7 +8,9 @@ using RoboticsLabManagementSystem.Api.RequestHandler.AuthRequestHandler;
 using RoboticsLabManagementSystem.Application.ExternalServices;
 using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using RoboticsLabManagementSystem.Infrastructure.Securities;
+using RoboticsLabManagementSystem.RequestHandler;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Security.Claims;
 using System.Text;
 
 namespace RoboticsLabManagementSystem.Controllers
@@ -38,6 +40,58 @@ namespace RoboticsLabManagementSystem.Controllers
             _captchaService = captchaService;
             _configuration = configuration;
             _scope = scope;
+        }
+        [HttpPost("Register")]
+        [SwaggerOperation(
+          Summary = "Registers a new user with the specified role",
+          Description = "This endpoint allows users to register by providing their email, password, and desired role (Staff =0 or Student=1).")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Registration successful")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid registration data or invalid user role specified", typeof(IResult))]
+
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequest registerRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    Email = registerRequest.Email,
+                    UserName = registerRequest.Email, 
+                    PhoneNumber = registerRequest.Phone,
+                    EmailConfirmed=true
+                };
+
+                var claims = new List<Claim>();
+                switch (registerRequest.UserRole)
+                {
+                    case UserRole.Staff:
+                        claims.Add(new Claim("StaffAccess", "Staff"));
+                      
+                        break;
+                    case UserRole.Student:
+                        claims.Add(new Claim("StudentAccess", "Student"));
+                       
+                        break;
+                    default:
+                        return BadRequest(new { status = "error", message = "Invalid user role specified" });
+                }
+
+                var result = await _userManager.CreateAsync(user, registerRequest.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddClaimsAsync(user, claims);
+                
+
+       
+
+                    return Ok(new { status = "Success", message = "Registration successful" });
+                }
+                else
+                {
+                    return BadRequest(new { status = "error", message = "Registration failed: " + string.Join(",", result.Errors.Select(e => e.Description)) });
+                }
+            }
+
+            return BadRequest(new { status = "error", message = "Invalid registration data" });
         }
 
         /// <summary>
