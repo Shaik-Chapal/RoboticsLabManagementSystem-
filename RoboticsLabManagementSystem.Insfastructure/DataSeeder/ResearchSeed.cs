@@ -21,7 +21,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PublicationDate = DateTime.Now,
                 Summary = "Summary of the research article 1",
                 FullTextLink = "http://example.com/research1",
-                ThumbnailImage = "research1.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             },
             new Research
             {
@@ -31,7 +31,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PublicationDate = DateTime.Now,
                 Summary = "Summary of the research article 2",
                 FullTextLink = "http://example.com/research2",
-                ThumbnailImage = "research2.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             }
             };
         }
@@ -50,7 +50,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 Author = "Alice Johnson",
                 PublicationDate = DateTime.Now,
                 Content = "Content of the blog post 1",
-                ThumbnailImage = "blog1.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             },
             new Blog
             {
@@ -59,7 +59,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 Author = "Bob Williams",
                 PublicationDate = DateTime.Now,
                 Content = "Content of the blog post 2",
-                ThumbnailImage = "blog2.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             }
             };
         }
@@ -80,7 +80,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PublicationDate = DateTime.Now,
                 Summary = "Summary of the featured content 1",
                 FullContentLink = "http://example.com/featured1",
-                ThumbnailImage = "featured1.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             },
             new FeaturedContent
             {
@@ -91,7 +91,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PublicationDate = DateTime.Now,
                 Summary = "Summary of the featured content 2",
                 FullContentLink = "http://example.com/featured2",
-                ThumbnailImage = "featured2.jpg"
+                ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             }
             };
         }

@@ -36,10 +36,10 @@ namespace RoboticsLabManagementSystem.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicationUser>().HasData(UserSeed.Users());
+            modelBuilder.Entity<User>().HasData(UserDataSeed.Users());
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());
             modelBuilder.Entity<Company>().HasData(CompanySeed.Claims());
-           // modelBuilder.Entity<Equipment>().HasData(EquipmentSeed.GetSeedData());
-            // Seed Research
+
             modelBuilder.Entity<Research>().HasData(
                 ResearchSeed.GetSeedData()
             );
@@ -73,6 +73,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
 
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<User> Users { get; set; }
        
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Research> Researches { get; set; }

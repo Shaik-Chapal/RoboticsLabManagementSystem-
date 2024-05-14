@@ -1,5 +1,6 @@
 ﻿using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using Microsoft.AspNetCore.Identity;
+using RoboticsLabManagementSystem.Domain.Entities;
 
 namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
 {
@@ -39,4 +40,45 @@ namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
             return users;
         }
     }
+    public static class UserDataSeed
+    {
+        public static IList<User> Users()
+        {
+            var admin = new User()
+            {
+                Id = new Guid("17FA016F-AE8B-4044-80E3-ABD54DFE392F"),
+                FirstName = "Admin",
+                LastName = "Admin",
+                Email = "admin@gmail.com",
+                Password = "admin123",
+                PhoneNumber = "1234567890",
+                CurrentAddress = "Admin Address",
+                Department = "Admin Department",
+                Designation = "Admin",
+                Session = "Admin Session",
+                IdNumber = "Admin ID",
+                JoinDate = DateTime.UtcNow.ToString()
+            };
+
+            var manager = new User()
+            {
+                Id = new Guid("8FD9FC20-5382-4F44-88FD-C78993A1D8E5"),
+                FirstName = "Manager",
+                LastName = "Manager",
+                Email = "manager@gmail.com",
+                Password = "manager123",
+                PhoneNumber = "1234567890",
+                CurrentAddress = "Manager Address",
+                Department = "Manager Department",
+                Designation = "Manager",
+                Session = "Manager Session",
+                IdNumber = "Manager ID",
+                JoinDate = DateTime.UtcNow.ToString() 
+            };
+
+            var users = new List<User>() { admin, manager };
+            return users;
+        }
+    }
+
 }
