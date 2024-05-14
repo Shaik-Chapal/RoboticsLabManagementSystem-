@@ -14,6 +14,8 @@ namespace RoboticsLabManagementSystem.Domain.Entities.Company
         public string Phone { get; set; }
         [Required]
         public string Address { get; set; }
+        public TimeSpan OpenTime { get; set; }
+        public TimeSpan CloseTime { get; set; }
         public string? LogoUrl { get; set; }
         [Required]
         public string Website { get; set; }

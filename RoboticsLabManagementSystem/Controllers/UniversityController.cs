@@ -74,25 +74,25 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
 
 
 
-        [HttpPost]
-        [SwaggerResponse(StatusCodes.Status204NoContent, "Company created successfully", typeof(CreateCompanyRequestHandler))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the process", typeof(IResult))]
-        public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyRequestHandler request)
-        {
-            try
-            {
-                request.ResolveDependency(_scope);
-                await request.CreateCompany();
+        //[HttpPost]
+        //[SwaggerResponse(StatusCodes.Status204NoContent, "Company created successfully", typeof(CreateCompanyRequestHandler))]
+        //[SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the process", typeof(IResult))]
+        //public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyRequestHandler request)
+        //{
+        //    try
+        //    {
+        //        request.ResolveDependency(_scope);
+        //        await request.CreateCompany();
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                return BadRequest();
-            }
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //        return BadRequest();
+        //    }
            
-        }
+        //}
 
 
 

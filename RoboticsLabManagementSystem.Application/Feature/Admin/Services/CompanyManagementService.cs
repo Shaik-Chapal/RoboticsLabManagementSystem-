@@ -83,6 +83,8 @@ namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
                 Address = x.Address,
                 Phone = x.Phone,
                 Email= x.Email,
+                OpenTime = x.OpenTime,
+                CloseTime   = x.CloseTime,
                 LogoUrl = "",
                 Website = x.Website,
             }).First();

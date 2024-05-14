@@ -14,6 +14,9 @@ namespace RoboticsLabManagementSystem.Api.RequestHandler.CompanyHandler
         public string Address { get; set; }
         public string? LogoUrl { get; set; }
         public string Website { get; set; }
+        public TimeSpan OpenTime { get; set; } = TimeSpan.Zero;
+        public TimeSpan CloseTime { get; set; } = TimeSpan.Zero;
+
 
         private ICompanyManagementService _companyManagementService;
         private IMapper _mapper;

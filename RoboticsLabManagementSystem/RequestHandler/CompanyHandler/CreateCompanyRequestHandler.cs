@@ -11,6 +11,8 @@ namespace RoboticsLabManagementSystem.Api.RequestHandler.CompanyHandler
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
+        public string OpenTime { get; set; } = string.Empty;
+        public string CloseTime { get; set; } = string.Empty;
         public string? LogoUrl { get; set; }
         public string Website { get; set; } = string.Empty;
 

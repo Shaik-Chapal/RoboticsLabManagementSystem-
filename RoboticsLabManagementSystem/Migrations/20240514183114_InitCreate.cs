@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RoboticsLabManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -77,6 +77,8 @@ namespace RoboticsLabManagementSystem.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OpenTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    CloseTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     LogoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -360,8 +362,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "64ef25ef-8b34-447c-b9dc-6c8c7d22479f", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEEWyKe2ywycCc++1TET9J4e/Qu8pDJQ4eKKweWCSisHm9L4P/U35iPHrD+KOja1sOw==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "8c7977d6-2c1a-473f-bd77-b6a4e507880b", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAEE2c2GSuvk2V8xqo97pGRqjZ/MlI/c1DiT7dzU+hoass6bu+Eod+NWibFF1CxR1Rxw==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "b5aaeb70-9c74-46b8-8590-86d7032b75a8", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEDttO4NS+pG4mP3ITynzQJOSF5GDG++rwJpZB3NmUgdQgulZt7/HtCHig6fWazcpOw==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "9311eacb-22da-4bcf-acbd-f9408d893dab", "manager@gmail.com", true, true, null, "MANAGER@GMAIL.COM", "MANAGER", "AQAAAAIAAYagAAAAEGU0L3bYJk6ICU8bosrLlqk4WXYhz9Ehhv9PTcmRhzK575l1+huynA2GCkWTASc65w==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -369,22 +371,22 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "BlogId", "Author", "Content", "PublicationDate", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("1128a478-77d1-4db5-be67-961014fbf9d3"), "Alice Johnson", "Content of the blog post 1", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(7031), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 1" },
-                    { new Guid("17e298e5-1e25-406f-a1e3-c2c12db0f627"), "Bob Williams", "Content of the blog post 2", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(7034), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 2" }
+                    { new Guid("3e72df77-3fe7-48d0-baf6-0b37962bcfa0"), "Alice Johnson", "Content of the blog post 1", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1537), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 1" },
+                    { new Guid("da1bdb68-cdb3-488c-a135-a1d6245d0522"), "Bob Williams", "Content of the blog post 2", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1543), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 2" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Company",
-                columns: new[] { "Id", "Address", "Email", "LogoUrl", "Name", "Phone", "Website" },
-                values: new object[] { new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "Pentti Kaiteran katu 1, 90570 Oulu, Finland", "info@OuluUniversity.com", null, "Oulu University of Applied Sciences", "+358 29 4480000", "https://www.oulu.fi/en" });
+                columns: new[] { "Id", "Address", "CloseTime", "Email", "LogoUrl", "Name", "OpenTime", "Phone", "Website" },
+                values: new object[] { new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "Pentti Kaiteran katu 1, 90570 Oulu, Finland", new TimeSpan(0, 20, 0, 0, 0), "info@OuluUniversity.com", null, "Oulu University of Applied Sciences", new TimeSpan(0, 10, 0, 0, 0), "+358 29 4480000", "https://www.oulu.fi/en" });
 
             migrationBuilder.InsertData(
                 table: "FeaturedContents",
                 columns: new[] { "ContentId", "Author", "ContentType", "FullContentLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("402b6bce-9d32-4c75-ac7b-34712deb4e45"), "Eva Brown", "Blog", "http://example.com/featured1", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(7071), "Summary of the featured content 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 1" },
-                    { new Guid("7fb5a71a-e824-4d9c-b2fc-e95ed5bdb42a"), "David Miller", "Research", "http://example.com/featured2", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(7075), "Summary of the featured content 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 2" }
+                    { new Guid("df9d1ff2-49cd-460e-9dc4-6a5147029fb5"), "Eva Brown", "Blog", "http://example.com/featured1", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1845), "Summary of the featured content 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 1" },
+                    { new Guid("f64e09aa-1c7a-49d3-a353-2325ee3aa1d3"), "David Miller", "Research", "http://example.com/featured2", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1852), "Summary of the featured content 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -392,8 +394,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "ResearchId", "Authors", "FullTextLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("4e182ff3-800b-4937-9617-323adcd61591"), "Jane Smith", "http://example.com/research2", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(6994), "Summary of the research article 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 2" },
-                    { new Guid("961fcfad-e3c6-4aed-ba41-0c628b99d9ff"), "John Doe", "http://example.com/research1", new DateTime(2024, 5, 14, 15, 6, 59, 992, DateTimeKind.Local).AddTicks(6982), "Summary of the research article 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 1" }
+                    { new Guid("490532b8-e72d-4b9c-8a1a-1aab6bcb9a63"), "John Doe", "http://example.com/research1", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1377), "Summary of the research article 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 1" },
+                    { new Guid("61a54284-b80f-4b8e-b790-d9833bad50be"), "Jane Smith", "http://example.com/research2", new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1402), "Summary of the research article 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -401,8 +403,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "CurrentAddress", "Department", "Designation", "Email", "FirstName", "IdNumber", "JoinDate", "LastName", "Password", "PhoneNumber", "Session" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), "Admin Address", "Admin Department", "Admin", "admin@gmail.com", "Admin", "Admin ID", "14/05/2024 9:06:59 AM", "Admin", "admin123", "1234567890", "Admin Session" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), "Manager Address", "Manager Department", "Manager", "manager@gmail.com", "Manager", "Manager ID", "14/05/2024 9:06:59 AM", "Manager", "manager123", "1234567890", "Manager Session" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), "Admin Address", "Admin Department", "Admin", "admin@gmail.com", "Admin", "Admin ID", "5/14/2024 6:31:12 PM", "Admin", "admin123", "1234567890", "Admin Session" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), "Manager Address", "Manager Department", "Manager", "manager@gmail.com", "Manager", "Manager ID", "5/14/2024 6:31:12 PM", "Manager", "manager123", "1234567890", "Manager Session" }
                 });
 
             migrationBuilder.InsertData(

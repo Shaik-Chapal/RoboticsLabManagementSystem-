@@ -13,7 +13,9 @@ namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
                 Email = "info@OuluUniversity.com",
                 Phone = "+358 29 4480000",
                 Website = "https://www.oulu.fi/en",
-                Address = "Pentti Kaiteran katu 1, 90570 Oulu, Finland"
+                Address = "Pentti Kaiteran katu 1, 90570 Oulu, Finland",
+                OpenTime = TimeSpan.FromHours(10), // 10:00 AM
+                CloseTime = TimeSpan.FromHours(20) // 8:00 PM
             };
             return company;
         }
