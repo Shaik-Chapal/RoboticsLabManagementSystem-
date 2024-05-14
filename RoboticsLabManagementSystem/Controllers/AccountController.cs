@@ -83,7 +83,9 @@ namespace RoboticsLabManagementSystem.Controllers
 
        
 
-                    return Ok(new { status = "Success", message = "Registration successful" });
+   
+                    return Ok(new { status = "Success", message = "Registration successful", userId = user.Id });
+
                 }
                 else
                 {
