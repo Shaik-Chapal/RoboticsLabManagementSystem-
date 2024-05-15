@@ -20,7 +20,7 @@ namespace RoboticsLabManagementSystem.Domain.Entities
        
 
        
-         public ICollection<Equipment> EquipmentSupplied { get; set; }
+        
     }
 
 }

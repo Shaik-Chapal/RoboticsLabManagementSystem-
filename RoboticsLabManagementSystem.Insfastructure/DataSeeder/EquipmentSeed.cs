@@ -53,4 +53,40 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
         }
     }
 
+    public static class SupplierSeed
+    {
+        public static List<Supplier> GetSeedData()
+        {
+            List<Supplier> supplierList = new List<Supplier>();
+
+            Supplier supplier1 = new Supplier
+            {
+                SupplierId = Guid.NewGuid(),
+                Name = "Supplier A",
+                ContactPerson = "John Doe",
+                Email = "john.doe@example.com",
+                Phone = "+1234567890",
+                Address = "123 Main Street, City, Country",
+                CreatedAt = DateTime.UtcNow
+            };
+            supplierList.Add(supplier1);
+
+            Supplier supplier2 = new Supplier
+            {
+                SupplierId = Guid.NewGuid(),
+                Name = "Supplier B",
+                ContactPerson = "Jane Smith",
+                Email = "jane.smith@example.com",
+                Phone = "+0987654321",
+                Address = "456 Elm Street, City, Country",
+                CreatedAt = DateTime.UtcNow
+            };
+            supplierList.Add(supplier2);
+
+            // Add more suppliers as needed...
+
+            return supplierList;
+        }
+    }
+
 }

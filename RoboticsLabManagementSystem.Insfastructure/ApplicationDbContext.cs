@@ -39,6 +39,9 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<User>().HasData(UserDataSeed.Users());
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());
             modelBuilder.Entity<Company>().HasData(CompanySeed.Claims());
+            modelBuilder.Entity<Supplier>().HasData(SupplierSeed.GetSeedData());
+            modelBuilder.Entity<Holiday>().HasData(HolidaySeed.GetSeedData());
+            modelBuilder.Entity<Branch>().HasData(BranchSeed.GetSeedData());
 
             modelBuilder.Entity<Research>().HasData(
                 ResearchSeed.GetSeedData()
@@ -82,6 +85,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<Threshold> Thresholds { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
 
     }
 }

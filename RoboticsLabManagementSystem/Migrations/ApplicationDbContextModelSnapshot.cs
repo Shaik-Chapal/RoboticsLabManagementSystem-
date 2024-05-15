@@ -54,19 +54,19 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            BlogId = new Guid("3e72df77-3fe7-48d0-baf6-0b37962bcfa0"),
+                            BlogId = new Guid("95679508-e8f4-48e7-af74-4e471cc66d8c"),
                             Author = "Alice Johnson",
                             Content = "Content of the blog post 1",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1537),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(359),
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Blog Title 1"
                         },
                         new
                         {
-                            BlogId = new Guid("da1bdb68-cdb3-488c-a135-a1d6245d0522"),
+                            BlogId = new Guid("6d834d83-da09-4b59-b201-0b517bd22ada"),
                             Author = "Bob Williams",
                             Content = "Content of the blog post 2",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1543),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(362),
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Blog Title 2"
                         });
@@ -98,6 +98,24 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Branch");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c13436ee-adf8-4111-a1ca-920845108ad8"),
+                            Address = "Address of CSE branch",
+                            CompanyId = new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"),
+                            Name = "CSE",
+                            Phone = "1234567890"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ad8e401-0b0e-4b7b-82c7-26027bdd671f"),
+                            Address = "Address of EEE branch",
+                            CompanyId = new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"),
+                            Name = "EEE",
+                            Phone = "9876543210"
+                        });
                 });
 
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Company.Company", b =>
@@ -193,15 +211,10 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ThresholdId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("EquipmentID");
-
-                    b.HasIndex("SupplierId");
 
                     b.HasIndex("ThresholdId");
 
@@ -248,25 +261,57 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ContentId = new Guid("df9d1ff2-49cd-460e-9dc4-6a5147029fb5"),
+                            ContentId = new Guid("77924bcc-0256-4ecd-9624-f24f4e64a3b7"),
                             Author = "Eva Brown",
                             ContentType = "Blog",
                             FullContentLink = "http://example.com/featured1",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1845),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(391),
                             Summary = "Summary of the featured content 1",
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Featured Content Title 1"
                         },
                         new
                         {
-                            ContentId = new Guid("f64e09aa-1c7a-49d3-a353-2325ee3aa1d3"),
+                            ContentId = new Guid("45848143-4285-4813-9d93-5055772f1671"),
                             Author = "David Miller",
                             ContentType = "Research",
                             FullContentLink = "http://example.com/featured2",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1852),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(394),
                             Summary = "Summary of the featured content 2",
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Featured Content Title 2"
+                        });
+                });
+
+            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Holiday", b =>
+                {
+                    b.Property<Guid>("HolidayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HolidayId");
+
+                    b.ToTable("Holidays");
+
+                    b.HasData(
+                        new
+                        {
+                            HolidayId = new Guid("d0c5079a-3206-473b-9294-93bb46434be1"),
+                            Date = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "New Year's Day"
+                        },
+                        new
+                        {
+                            HolidayId = new Guid("c62a0ffd-a75d-43d6-b154-7f811f106628"),
+                            Date = new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Christmas"
                         });
                 });
 
@@ -336,20 +381,20 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            ResearchId = new Guid("490532b8-e72d-4b9c-8a1a-1aab6bcb9a63"),
+                            ResearchId = new Guid("6f15f70f-9cdd-4f85-a844-9e290df83c6c"),
                             Authors = "John Doe",
                             FullTextLink = "http://example.com/research1",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1377),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(314),
                             Summary = "Summary of the research article 1",
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Research Title 1"
                         },
                         new
                         {
-                            ResearchId = new Guid("61a54284-b80f-4b8e-b790-d9833bad50be"),
+                            ResearchId = new Guid("09daf20f-92f1-4319-95c8-7645a4bdb724"),
                             Authors = "Jane Smith",
                             FullTextLink = "http://example.com/research2",
-                            PublicationDate = new DateTime(2024, 5, 15, 0, 31, 12, 612, DateTimeKind.Local).AddTicks(1402),
+                            PublicationDate = new DateTime(2024, 5, 15, 13, 0, 52, 846, DateTimeKind.Local).AddTicks(330),
                             Summary = "Summary of the research article 2",
                             ThumbnailImage = "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
                             Title = "Sample Research Title 2"
@@ -388,6 +433,28 @@ namespace RoboticsLabManagementSystem.Migrations
                     b.HasKey("SupplierId");
 
                     b.ToTable("Supplier");
+
+                    b.HasData(
+                        new
+                        {
+                            SupplierId = new Guid("d94f7315-88d9-4b2d-a17a-88d18f14b25d"),
+                            Address = "123 Main Street, City, Country",
+                            ContactPerson = "John Doe",
+                            CreatedAt = new DateTime(2024, 5, 15, 7, 0, 52, 846, DateTimeKind.Utc).AddTicks(199),
+                            Email = "john.doe@example.com",
+                            Name = "Supplier A",
+                            Phone = "+1234567890"
+                        },
+                        new
+                        {
+                            SupplierId = new Guid("c03905f6-e580-475c-8044-c7ec9069d7c4"),
+                            Address = "456 Elm Street, City, Country",
+                            ContactPerson = "Jane Smith",
+                            CreatedAt = new DateTime(2024, 5, 15, 7, 0, 52, 846, DateTimeKind.Utc).AddTicks(203),
+                            Email = "jane.smith@example.com",
+                            Name = "Supplier B",
+                            Phone = "+0987654321"
+                        });
                 });
 
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Threshold", b =>
@@ -475,7 +542,7 @@ namespace RoboticsLabManagementSystem.Migrations
                             Email = "admin@gmail.com",
                             FirstName = "Admin",
                             IdNumber = "Admin ID",
-                            JoinDate = "5/14/2024 6:31:12 PM",
+                            JoinDate = "15/05/2024 7:00:52 AM",
                             LastName = "Admin",
                             Password = "admin123",
                             PhoneNumber = "1234567890",
@@ -490,7 +557,7 @@ namespace RoboticsLabManagementSystem.Migrations
                             Email = "manager@gmail.com",
                             FirstName = "Manager",
                             IdNumber = "Manager ID",
-                            JoinDate = "5/14/2024 6:31:12 PM",
+                            JoinDate = "15/05/2024 7:00:52 AM",
                             LastName = "Manager",
                             Password = "manager123",
                             PhoneNumber = "1234567890",
@@ -620,13 +687,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5aaeb70-9c74-46b8-8590-86d7032b75a8",
+                            ConcurrencyStamp = "77b6d4bf-95f1-4163-b8a4-157cdfe9c29e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDttO4NS+pG4mP3ITynzQJOSF5GDG++rwJpZB3NmUgdQgulZt7/HtCHig6fWazcpOw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEuG17akNBXklf1V0GSZFhi6hupCMx0L2ycKx9+FeQlWcu38584dqwofXbOS80xlMw==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "BFCC7B453A8B4B6C8A4C93EE28A3B4A8",
@@ -637,13 +704,13 @@ namespace RoboticsLabManagementSystem.Migrations
                         {
                             Id = new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9311eacb-22da-4bcf-acbd-f9408d893dab",
+                            ConcurrencyStamp = "9bba146d-c48d-478c-931b-1dc917d8d38c",
                             Email = "manager@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGU0L3bYJk6ICU8bosrLlqk4WXYhz9Ehhv9PTcmRhzK575l1+huynA2GCkWTASc65w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP5JG4ZutRQW1LSqu7omZrmvx+tnOjpHNw+GdVAdfQqbGoouHlnpXx9FZUkR7rFgvg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "FC37C84E276C4D978DF9054129D0CB23",
@@ -760,10 +827,6 @@ namespace RoboticsLabManagementSystem.Migrations
 
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Equipment", b =>
                 {
-                    b.HasOne("RoboticsLabManagementSystem.Domain.Entities.Supplier", null)
-                        .WithMany("EquipmentSupplied")
-                        .HasForeignKey("SupplierId");
-
                     b.HasOne("RoboticsLabManagementSystem.Domain.Entities.Threshold", "Threshold")
                         .WithMany()
                         .HasForeignKey("ThresholdId")
@@ -838,11 +901,6 @@ namespace RoboticsLabManagementSystem.Migrations
             modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Company.Company", b =>
                 {
                     b.Navigation("Branches");
-                });
-
-            modelBuilder.Entity("RoboticsLabManagementSystem.Domain.Entities.Supplier", b =>
-                {
-                    b.Navigation("EquipmentSupplied");
                 });
 #pragma warning restore 612, 618
         }
