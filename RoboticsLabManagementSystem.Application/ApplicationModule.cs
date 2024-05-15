@@ -7,7 +7,7 @@ namespace RoboticsLabManagementSystem.Application
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CompanyManagementService>().As<ICompanyManagementService>()
+            builder.RegisterType<UniversityManagementService>().As<ICompanyManagementService>()
                 .InstancePerLifetimeScope();
         }
     }

@@ -1,7 +1,5 @@
-﻿using Autofac;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RoboticsLabManagementSystem.Api.Controllers.Admin;
 using RoboticsLabManagementSystem.Domain.Entities;
 using RoboticsLabManagementSystem.Infrastructure;
 using Swashbuckle.AspNetCore.Annotations;

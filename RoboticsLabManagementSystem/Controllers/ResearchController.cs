@@ -5,66 +5,51 @@ using RoboticsLabManagementSystem.Infrastructure;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
-
-
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ResearchController : ControllerBase
+    public interface IResearchService
+    {
+        Task<IEnumerable<Research>> GetResearchesAsync();
+        Task<IEnumerable<Research>> GetTopTwoResearchesAsync();
+        Task<Research> GetResearchByIdAsync(Guid id);
+        Task<Research> CreateResearchAsync(Research research);
+        Task<bool> UpdateResearchAsync(Guid id, Research research);
+        Task<bool> DeleteResearchAsync(Guid id);
+    }
+    public class ResearchService : IResearchService
     {
         private readonly ApplicationDbContext _context;
 
-        public ResearchController(ApplicationDbContext context)
+        public ResearchService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Research
-        [HttpGet("Research")]
-        public async Task<ActionResult<IEnumerable<Research>>> GetResearches()
+        public async Task<IEnumerable<Research>> GetResearchesAsync()
         {
             return await _context.Researches.ToListAsync();
         }
 
-        // GET: api/Research
-        [HttpGet("TopTwoResearchs")]
-        public async Task<ActionResult<IEnumerable<Research>>> GetTopTwoResearches()
+        public async Task<IEnumerable<Research>> GetTopTwoResearchesAsync()
         {
-            var topTwoResearchs = await _context.Researches.Take(2).ToListAsync();
-            return topTwoResearchs;
+            return await _context.Researches.Take(2).ToListAsync();
         }
 
-
-        // GET: api/Research/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Research>> GetResearch(Guid id)
+        public async Task<Research> GetResearchByIdAsync(Guid id)
         {
-            var research = await _context.Researches.FindAsync(id);
-
-            if (research == null)
-            {
-                return NotFound();
-            }
-
-            return research;
+            return await _context.Researches.FindAsync(id);
         }
 
-        // POST: api/Research
-        [HttpPost]
-        public async Task<ActionResult<Research>> PostResearch(Research research)
+        public async Task<Research> CreateResearchAsync(Research research)
         {
             _context.Researches.Add(research);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetResearch), new { id = research.ResearchId }, research);
+            return research;
         }
 
-        // PUT: api/Research/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutResearch(Guid id, Research research)
+        public async Task<bool> UpdateResearchAsync(Guid id, Research research)
         {
             if (id != research.ResearchId)
             {
-                return BadRequest();
+                return false;
             }
 
             _context.Entry(research).State = EntityState.Modified;
@@ -77,7 +62,7 @@ namespace RoboticsLabManagementSystem.Controllers
             {
                 if (!ResearchExists(id))
                 {
-                    return NotFound();
+                    return false;
                 }
                 else
                 {
@@ -85,28 +70,103 @@ namespace RoboticsLabManagementSystem.Controllers
                 }
             }
 
-            return NoContent();
+            return true;
         }
 
-        // DELETE: api/Research/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteResearch(Guid id)
+        public async Task<bool> DeleteResearchAsync(Guid id)
         {
             var research = await _context.Researches.FindAsync(id);
             if (research == null)
             {
-                return NotFound();
+                return false;
             }
 
             _context.Researches.Remove(research);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            return true;
         }
 
         private bool ResearchExists(Guid id)
         {
             return _context.Researches.Any(e => e.ResearchId == id);
+        }
+    }
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ResearchController : ControllerBase
+    {
+        private readonly IResearchService _researchService;
+
+        public ResearchController(IResearchService researchService)
+        {
+            _researchService = researchService ?? throw new ArgumentNullException(nameof(researchService));
+        }
+
+        [HttpGet("Research")]
+        public async Task<ActionResult<IEnumerable<Research>>> GetResearches()
+        {
+            var researches = await _researchService.GetResearchesAsync();
+            return Ok(researches);
+        }
+
+        [HttpGet("TopTwoResearchs")]
+        public async Task<ActionResult<IEnumerable<Research>>> GetTopTwoResearches()
+        {
+            var topTwoResearches = await _researchService.GetTopTwoResearchesAsync();
+            return Ok(topTwoResearches);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Research>> GetResearch(Guid id)
+        {
+            var research = await _researchService.GetResearchByIdAsync(id);
+            if (research == null)
+            {
+                return NotFound();
+            }
+            return Ok(research);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Research>> CreateResearch(Research research)
+        {
+            if (research == null)
+            {
+                return BadRequest();
+            }
+
+            var createdResearch = await _researchService.CreateResearchAsync(research);
+            return CreatedAtAction(nameof(GetResearch), new { id = createdResearch.ResearchId }, createdResearch);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateResearch(Guid id, Research research)
+        {
+            if (id != research.ResearchId)
+            {
+                return BadRequest();
+            }
+
+            var result = await _researchService.UpdateResearchAsync(id, research);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteResearch(Guid id)
+        {
+            var result = await _researchService.DeleteResearchAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 

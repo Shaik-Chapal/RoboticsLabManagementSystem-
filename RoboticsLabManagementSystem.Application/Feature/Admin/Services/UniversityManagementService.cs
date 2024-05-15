@@ -6,17 +6,11 @@ using RoboticsLabManagementSystem.Domain.Entities.Company;
 
 namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
 {
-    public class CompanyManagementService : ICompanyManagementService
+    public class UniversityManagementService : ICompanyManagementService
     {
         private readonly IApplicationUnitOfWork _unitOfWork;
-       // private readonly IFileService _fileService;
-
-        //public CompanyManagementService(IApplicationUnitOfWork unitOfWork, IFileService fileService)
-        //{
-        //    _unitOfWork = unitOfWork;
-        //    _fileService = fileService;
-        //}
-        public CompanyManagementService(IApplicationUnitOfWork unitOfWork)
+      
+        public UniversityManagementService(IApplicationUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
          
@@ -29,14 +23,7 @@ namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
 
         public async Task AddBranch(Branch entity)
         {
-            //var company =(await _unitOfWork.Company.GetAllAsync()).First();
-
-            //if (company == null)
-            //{
-            //    throw new InvalidOperationException("Company don't exist");
-            //}
-
-            //entity.CompanyId = company.Id;
+          
 
             await _unitOfWork.Branches.AddAsync(entity);
             await _unitOfWork.SaveAsync();
@@ -107,14 +94,7 @@ namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
             {
                 throw new InvalidOperationException($"Company with ID {entity.Id} was not found.");
             }
-            //if (!string.IsNullOrWhiteSpace(entity.LogoUrl) && entity.LogoUrl!=null)
-            //{
-            //    if(companyToUpdate.LogoUrl!=null)
-            //    {
-            //        await _fileService.DeleteFile(companyToUpdate.LogoUrl);
-            //    }
-            //    companyToUpdate.LogoUrl= await _fileService.UploadFile(entity.LogoUrl, "LogoImage");
-            //}
+          
 
             companyToUpdate.Name = entity.Name;
             companyToUpdate.Email = entity.Email;

@@ -17,6 +17,8 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using RoboticsLabManagementSystem.Application;
 using RoboticsLabManagementSystem.Domain.Utilities;
 using FluentValidation.AspNetCore;
+using Autofac.Core;
+using RoboticsLabManagementSystem.Controllers;
 
 
 
@@ -103,6 +105,8 @@ try
 
 
     builder.Services.AddSingleton<IAuthorizationHandler, AdminManagerRequirementHandler>();
+    builder.Services.AddScoped<IResearchService, ResearchService>();
+
 
     builder.Services.AddControllers()
        .AddFluentValidation(x =>
