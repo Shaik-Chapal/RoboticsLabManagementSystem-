@@ -64,9 +64,18 @@ namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
             await _unitOfWork.Branches.RemoveAsync(id);
             await _unitOfWork.SaveAsync();
         }
-        public async Task<Branch> GetBranch(Guid id)
+        public async Task<Branch> GetBranch()
         {
-            return await _unitOfWork.Branches.GetByIdAsync(id);
+            return (Branch)(await _unitOfWork.Branches.GetAllAsync()).Select(x=> new Branch
+            {
+              
+                Name = x.Name,
+                Address = x.Address,
+                Phone = x.Phone,
+                        
+
+            }
+                );
         }
 
         public async Task<IPaginate<Branch>> GetBranches(SearchRequest request, CancellationToken cancellationToken)

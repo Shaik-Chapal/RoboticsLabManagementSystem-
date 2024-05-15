@@ -2,6 +2,7 @@
 using RoboticsLabManagementSystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Domain.Entities;
+using RoboticsLabManagementSystem.Domain.Entities.Company;
 
 
 namespace RoboticsLabManagementSystem.Controllers
@@ -23,6 +24,12 @@ namespace RoboticsLabManagementSystem.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+        // GET: api/User
+        [HttpGet("Department")]
+        public async Task<ActionResult<IEnumerable<Branch>>> GetBranchs()
+        {
+            return await _context.Branch.ToListAsync();
         }
 
         // GET: api/User/5

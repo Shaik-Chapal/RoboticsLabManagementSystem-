@@ -45,19 +45,19 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
         ///       "company": "Oulu University of Applied Sciences"
         ///     }
         /// </remarks>
-        [Authorize(Policy = "AdminManager")]
-        [HttpGet("{id:guid}")]
+        
+        [HttpGet()]
         [SwaggerResponse(StatusCodes.Status200OK, "Branch information retrieved successfully", typeof(GetBranchRequestHandler))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Branch information not found", typeof(IResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the process", typeof(IResult))]
-        public async Task<IActionResult> GetBranch([FromRoute] Guid id)
+        public async Task<IActionResult> GetBranch()
         {
             try
             {
                 var requestHandler = _scope.Resolve<GetBranchRequestHandler>();
                 requestHandler.ResolveDependency(_scope);
 
-                var data = await requestHandler.GetBranch(id);
+                var data = await requestHandler.GetBranch();
 
                 if (data == null)
                 {

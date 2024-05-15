@@ -24,9 +24,9 @@ namespace RoboticsLabManagementSystem.Api.RequestHandler.BranchHandler
             _companyManagementService = scope.Resolve<ICompanyManagementService>();
         }
 
-        internal async Task<Branch> GetBranch(Guid id)
+        internal async Task<Branch> GetBranch()
         {
-            return await _companyManagementService.GetBranch(id);
+            return await _companyManagementService.GetBranch();
         }
 
         internal async Task<IPaginate<Branch>> GetBranchList(SearchRequest request, CancellationToken cancellationToken)

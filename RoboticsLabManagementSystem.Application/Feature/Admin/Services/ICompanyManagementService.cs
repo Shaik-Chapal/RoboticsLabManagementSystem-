@@ -12,7 +12,7 @@ namespace RoboticsLabManagementSystem.Application.Feature.Admin.Services
         Task CreateCompany(Company entity);
         Task UpdateBranch(Branch entity);
         Task DeleteBranch(Guid id);
-        Task<Branch> GetBranch(Guid id);
+        Task<Branch> GetBranch();
         Task<IPaginate<Branch>> GetBranches(SearchRequest request, CancellationToken cancellationToken);
     }
 }
