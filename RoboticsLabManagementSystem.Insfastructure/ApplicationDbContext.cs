@@ -42,6 +42,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<Supplier>().HasData(SupplierSeed.GetSeedData());
             modelBuilder.Entity<Holiday>().HasData(HolidaySeed.GetSeedData());
             modelBuilder.Entity<Branch>().HasData(BranchSeed.GetSeedData());
+            modelBuilder.Entity<Group>().HasData(GroupModelSeed.GetSeedData());
 
             modelBuilder.Entity<Research>().HasData(
                 ResearchSeed.GetSeedData()
@@ -68,6 +69,12 @@ namespace RoboticsLabManagementSystem.Infrastructure
                 .WithOne(y => y.Company)
                 .HasForeignKey(y => y.CompanyId);
 
+            modelBuilder.Entity<PurchaseOrder>()
+            .HasOne(p => p.Equipment)
+            .WithMany(e => e.PurchaseOrders)
+            .HasForeignKey(p => p.EquipmentId);
+
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Company> Company { get; set; }
@@ -86,6 +93,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Threshold> Thresholds { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
     }
 }

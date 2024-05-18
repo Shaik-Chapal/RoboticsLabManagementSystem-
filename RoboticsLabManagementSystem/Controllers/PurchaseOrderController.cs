@@ -18,63 +18,119 @@ namespace RoboticsLabManagementSystem.Controllers
             _logger = logger;
         }
 
-        // GET: api/v1/PurchaseOrder
         [HttpGet]
-        public IActionResult GetAllPurchaseOrders()
+        public async Task<IActionResult> GetPurchaseOrders()
         {
-            var purchaseOrders = _dbContext.PurchaseOrders.ToList();
+            var purchaseOrders = await _dbContext.PurchaseOrders.ToListAsync();
             return Ok(purchaseOrders);
         }
 
-        // GET: api/v1/PurchaseOrder/{id}
         [HttpGet("{id}")]
-        public IActionResult GetPurchaseOrderById(Guid id)
+        public async Task<IActionResult> GetPurchaseOrder(Guid id)
         {
-            var purchaseOrder = _dbContext.PurchaseOrders.Find(id);
+            var purchaseOrder = await _dbContext.PurchaseOrders.FindAsync(id);
+
             if (purchaseOrder == null)
             {
                 return NotFound();
             }
+
             return Ok(purchaseOrder);
         }
 
-        // POST: api/v1/PurchaseOrder
         [HttpPost]
-        public IActionResult CreatePurchaseOrder([FromBody] PurchaseOrder purchaseOrder)
+        public async Task<IActionResult> CreatePurchaseOrder([FromBody] PurchaseOrderDto purchaseOrderDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var equipment = await _dbContext.Equipment.FindAsync(purchaseOrderDto.EquipmentId);
+
+            if (equipment == null)
+            {
+                return NotFound("Associated equipment not found");
+            }
+
+            // Create a PurchaseOrder object from the DTO
+            var purchaseOrder = new PurchaseOrder
+            {
+                ItemName = purchaseOrderDto.ItemName,
+                Quantity = purchaseOrderDto.Quantity,
+                ExpirationDate = purchaseOrderDto.ExpirationDate,
+                Price = purchaseOrderDto.Price,
+                EquipmentId = purchaseOrderDto.EquipmentId,
+                Company = purchaseOrderDto.Company,
+                Origin = purchaseOrderDto.Origin,
+                Manufacturer = purchaseOrderDto.Manufacturer,
+                ModelNumber = purchaseOrderDto.ModelNumber,
+                CreateDate = purchaseOrderDto.CreateDate
+            };
+
+            // Update the quantity of the associated equipment
+            equipment.Quantity += purchaseOrder.Quantity;
+
+            // Associate the equipment with the purchase order
+            purchaseOrder.Equipment = equipment;
+
             _dbContext.PurchaseOrders.Add(purchaseOrder);
-            _dbContext.SaveChanges();
-            return CreatedAtAction(nameof(GetPurchaseOrderById), new { id = purchaseOrder.PurchaseOrderId }, purchaseOrder);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetPurchaseOrder), new { id = purchaseOrder.PurchaseOrderId }, purchaseOrder);
         }
 
-        // PUT: api/v1/PurchaseOrder/{id}
+
+
         [HttpPut("{id}")]
-        public IActionResult UpdatePurchaseOrder(Guid id, [FromBody] PurchaseOrder updatedPurchaseOrder)
+        public async Task<IActionResult> UpdatePurchaseOrder(Guid id, [FromBody] PurchaseOrder purchaseOrder)
         {
-            if (id != updatedPurchaseOrder.PurchaseOrderId)
+            if (id != purchaseOrder.PurchaseOrderId || !ModelState.IsValid)
             {
                 return BadRequest();
             }
-            _dbContext.Entry(updatedPurchaseOrder).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+
+            var existingPurchaseOrder = await _dbContext.PurchaseOrders.FindAsync(id);
+            if (existingPurchaseOrder == null)
+            {
+                return NotFound();
+            }
+
+            // Adjust the quantity of the associated equipment
+            var equipment = await _dbContext.Equipment.FindAsync(purchaseOrder.EquipmentId);
+            if (equipment == null)
+            {
+                return NotFound("Associated equipment not found");
+            }
+
+            // Revert the old quantity update and apply the new one
+            equipment.Quantity -= existingPurchaseOrder.Quantity;
+            equipment.Quantity += purchaseOrder.Quantity;
+
+            _dbContext.Entry(existingPurchaseOrder).CurrentValues.SetValues(purchaseOrder);
+            await _dbContext.SaveChangesAsync();
+
             return NoContent();
         }
 
-        // DELETE: api/v1/PurchaseOrder/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeletePurchaseOrder(Guid id)
+        public async Task<IActionResult> DeletePurchaseOrder(Guid id)
         {
-            var purchaseOrder = _dbContext.PurchaseOrders.Find(id);
+            var purchaseOrder = await _dbContext.PurchaseOrders.FindAsync(id);
             if (purchaseOrder == null)
             {
                 return NotFound();
             }
+
+            var equipment = await _dbContext.Equipment.FindAsync(purchaseOrder.EquipmentId);
+            if (equipment != null)
+            {
+                equipment.Quantity -= purchaseOrder.Quantity;
+            }
+
             _dbContext.PurchaseOrders.Remove(purchaseOrder);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
+
             return NoContent();
         }
     }

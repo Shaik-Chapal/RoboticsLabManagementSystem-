@@ -67,10 +67,37 @@ namespace RoboticsLabManagementSystem.Controllers
         [SwaggerResponse(StatusCodes.Status201Created, "Equipment added successfully", typeof(Equipment))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request data")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Internal server error")]
-        public async Task<IActionResult> AddEquipment(Equipment equipment)
+        //public async Task<IActionResult> AddEquipment(Equipment equipment)
+        //{
+        //    try
+        //    {
+        //        _dbContext.Equipment.Add(equipment);
+        //        await _dbContext.SaveChangesAsync();
+
+        //        return CreatedAtAction(nameof(GetEquipmentById), new { id = equipment.EquipmentID }, equipment);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Failed to add equipment");
+        //        return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+        //    }
+        //}
+        public async Task<IActionResult> AddEquipment(EquipmentDto equipmentDto)
         {
             try
             {
+                // You can perform validation here if needed
+
+                // Map EquipmentDto to Equipment model
+                var equipment = new Equipment
+                {
+                    EquipmentID = equipmentDto.EquipmentID,
+                    EquipmentName = equipmentDto.EquipmentName,
+                    Description = equipmentDto.Description,
+                    Location = equipmentDto.Location,
+                    GroupID = equipmentDto.GroupID
+                };
+
                 _dbContext.Equipment.Add(equipment);
                 await _dbContext.SaveChangesAsync();
 
@@ -82,7 +109,6 @@ namespace RoboticsLabManagementSystem.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
-
         // PUT: api/v1/Equipment/{id}
         [HttpPut("{id}")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Equipment updated successfully")]

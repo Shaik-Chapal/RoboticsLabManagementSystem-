@@ -13,7 +13,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PurchaseOrderId = Guid.NewGuid(),
                 ItemName = "Item 1",
                 Quantity = 10,
-                Location = "Location 1",
+              
                 Price = 10,
             },
             new PurchaseOrder
@@ -21,7 +21,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 PurchaseOrderId = Guid.NewGuid(),
                 ItemName = "Item 2",
                 Quantity = 15,
-                Location = "Location 2",
+              
                 Price = 15
             }
             

@@ -20,30 +20,24 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
             Equipment equipment1 = new Equipment
             {
                 EquipmentID = Guid.NewGuid(),
-                EquipmentName = "Microscope",
-                Description = "High-powered microscope for lab use",
-                Quantity = 5,
+                EquipmentName = "DC Power Supplies",
+                Description = "High-powered DC Power Supplies for lab use",
+                Quantity = 0,
+                GroupID = new Guid("D4F37C25-6883-443D-A3E2-88966BE5D0F4"),
                 Location = "Lab Room A",
-                LastMaintenanceDate = DateTime.Parse("2024-04-20"),
-                Manufacturer = "Company X",
-                ModelNumber = "ABC123",
-                Company = "Oulu University of Applied Sciences",
-                Origin = "Finland"
+  
             };
             equipmentList.Add(equipment1);
 
             Equipment equipment2 = new Equipment
             {
                 EquipmentID = Guid.NewGuid(),
-                EquipmentName = "Spectrophotometer",
-                Description = "Analytical instrument for measuring absorbance",
-                Quantity = 3,
-                Location = "Lab Room B",
-                LastMaintenanceDate = DateTime.Parse("2024-03-15"),
-                Manufacturer = "Company Y",
-                ModelNumber = "XYZ789",
-                Company = "Oulu University of Applied Sciences",
-                Origin = "Finland"
+                EquipmentName = "Digital Multimeters (DMM)",
+                Description = "Digital Multimeters (DMM)",
+                Quantity = 0,
+                GroupID = new Guid("659BBDA2-5C68-4FB6-8929-0ED791BF9A24"),
+                Location = "Lab Room A",
+
             };
             equipmentList.Add(equipment2);
 
