@@ -84,7 +84,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<User> Users { get; set; }
-       
+        public DbSet<EquipmentLog> EquipmentLogs { get; set; }
+
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Research> Researches { get; set; }
         public DbSet<Blog> Blogs { get; set; }

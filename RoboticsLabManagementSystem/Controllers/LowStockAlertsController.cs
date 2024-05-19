@@ -16,26 +16,16 @@ namespace RoboticsLabManagementSystem.Controllers
         {
             _context = context;
         }
+        [HttpGet("low-stock")]
+        public async Task<IActionResult> GetLowStockItems()
+        {
+            var lowStockItems = await _context.Equipment
+                                              .Where(e => e.Quantity < 5)
+                                              .ToListAsync();
 
-        // GET: api/LowStockAlerts/Equipment
-        //[HttpGet("Equipment")]
-        //public IActionResult GetLowStockEquipment()
-        //{
-        //    var lowStockEquipment = _context.Equipment
-        //        .Where(e => e.Quantity < e.Threshold.LowStockThreshold)
-        //        .Include(e => e.Threshold); 
-        //    return Ok(lowStockEquipment);
-        //}
+            return Ok(lowStockItems);
+        }
 
-        //// GET: api/LowStockAlerts/PurchaseOrders
-        //[HttpGet("PurchaseOrders")]
-        //public IActionResult GetLowStockPurchaseOrders()
-        //{
-        //    var lowStockPurchaseOrders = _context.PurchaseOrders
-        //        .Where(po => po.Quantity < po.Threshold.LowStockThreshold)
-        //        .Include(po => po.Threshold); 
-        //    return Ok(lowStockPurchaseOrders);
-        //}
     }
 
 
