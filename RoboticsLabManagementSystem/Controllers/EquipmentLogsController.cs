@@ -4,8 +4,8 @@ using RoboticsLabManagementSystem.Infrastructure;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EquipmentLogsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -15,98 +15,68 @@ namespace RoboticsLabManagementSystem.Controllers
             _context = context;
         }
 
-        [HttpPost("book")]
-        public async Task<IActionResult> BookItem(Guid userId, int equipmentId, DateTime endDate)
+        [HttpPost]
+        public async Task<IActionResult> LogEquipmentUsage([FromBody] EquipmentLogRequest request)
         {
-            var item = await _context.Equipment.FindAsync(equipmentId);
-            if (item == null || item.Quantity <= 0)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Item is out of stock.");
+                return BadRequest(ModelState);
             }
 
-            item.Quantity--;
-            _context.EquipmentLogs.Add(new EquipmentLog
+            var equipmentLog = new EquipmentLog
             {
                 Id = Guid.NewGuid(),
-                UserId = userId,
-                EquipmentId = equipmentId,
-                Action = "Book",
+                UserId = request.UserId,
+                Action = request.Action,
                 ActionDate = DateTime.UtcNow,
-                EndDate = endDate
-            });
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Items = request.Items.Select(item => new EquipmentLogItem
+                {
+                    EquipmentId = item.EquipmentId,
+                    Quantity = item.Quantity
+                }).ToList()
+            };
 
-            await _context.SaveChangesAsync();
-            return Ok(item);
-        }
-
-        [HttpPost("use")]
-        public async Task<IActionResult> UseItem(Guid userId, int equipmentId)
-        {
-            var item = await _context.Equipment.FindAsync(equipmentId);
-            if (item == null || item.Quantity <= 0)
+            foreach (var item in equipmentLog.Items)
             {
-                return BadRequest("Item is out of stock.");
+                var equipment = await _context.Equipment.FindAsync(item.EquipmentId);
+                if (equipment == null)
+                {
+                    return NotFound($"Equipment with ID {item.EquipmentId} not found.");
+                }
+
+                switch (request.Action.ToLower())
+                {
+                    case "book":
+                    case "use":
+                        if (equipment.Quantity < item.Quantity)
+                        {
+                            return BadRequest($"Not enough quantity for equipment ID {item.EquipmentId}. Available: {equipment.Quantity}, Requested: {item.Quantity}");
+                        }
+                        equipment.Quantity -= item.Quantity;
+                        break;
+                    case "return":
+                        equipment.Quantity += item.Quantity;
+                        break;
+                    case "damage":
+                        if (equipment.Quantity < item.Quantity)
+                        {
+                            return BadRequest($"Not enough quantity for equipment ID {item.EquipmentId}. Available: {equipment.Quantity}, Reported Damage: {item.Quantity}");
+                        }
+                        equipment.Quantity -= item.Quantity;
+                        break;
+                    default:
+                        return BadRequest("Invalid action. Allowed actions are: Book, Use, Return, Damage.");
+                }
+
+                _context.Equipment.Update(equipment);
             }
 
-            item.Quantity--;
-            _context.EquipmentLogs.Add(new EquipmentLog
-            {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                EquipmentId = equipmentId,
-                Action = "Use",
-                ActionDate = DateTime.UtcNow
-            });
-
+            _context.EquipmentLogs.Add(equipmentLog);
             await _context.SaveChangesAsync();
-            return Ok(item);
-        }
 
-        [HttpPost("return")]
-        public async Task<IActionResult> ReturnItem(Guid userId, int equipmentId)
-        {
-            var item = await _context.Equipment.FindAsync(equipmentId);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            item.Quantity++;
-            _context.EquipmentLogs.Add(new EquipmentLog
-            {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                EquipmentId = equipmentId,
-                Action = "Return",
-                ActionDate = DateTime.UtcNow
-            });
-
-            await _context.SaveChangesAsync();
-            return Ok(item);
-        }
-
-        [HttpPost("damage")]
-        public async Task<IActionResult> DamageItem(Guid userId, int equipmentId)
-        {
-            var item = await _context.Equipment.FindAsync(equipmentId);
-            if (item == null || item.Quantity <= 0)
-            {
-                return BadRequest("Item is out of stock.");
-            }
-
-            item.Quantity--;
-            _context.EquipmentLogs.Add(new EquipmentLog
-            {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                EquipmentId = equipmentId,
-                Action = "Damage",
-                ActionDate = DateTime.UtcNow
-            });
-
-            await _context.SaveChangesAsync();
-            return Ok(item);
+            return Ok(equipmentLog);
         }
     }
 }
-

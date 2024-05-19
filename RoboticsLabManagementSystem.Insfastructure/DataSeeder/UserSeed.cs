@@ -23,20 +23,20 @@ namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
             };
 
             admin.PasswordHash = passHasher.HashPassword(admin, "#s1234");
-            var manager = new ApplicationUser()
+            var teacher = new ApplicationUser()
             {
                 Id = new Guid("8FD9FC20-5382-4F44-88FD-C78993A1D8E5"),
-                UserName = "manager",
+                UserName = "Teacher",
                 PhoneNumber = "1234567890",
-                NormalizedUserName = "MANAGER",
-                Email = "manager@gmail.com",
-                NormalizedEmail = "MANAGER@GMAIL.COM",
+                NormalizedUserName = "Teacher",
+                Email = "Teacher@gmail.com",
+                NormalizedEmail = "Teacher@GMAIL.COM",
                 EmailConfirmed = true,
                 LockoutEnabled = true,
                 SecurityStamp = "FC37C84E276C4D978DF9054129D0CB23",
             };
-            manager.PasswordHash = passHasher.HashPassword(manager, "#s12345");
-            var users = new List<ApplicationUser>() { admin, manager };
+            teacher.PasswordHash = passHasher.HashPassword(teacher, "#s12345");
+            var users = new List<ApplicationUser>() { admin, teacher };
             return users;
         }
     }

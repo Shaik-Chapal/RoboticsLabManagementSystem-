@@ -72,12 +72,12 @@ try
             policy.RequireAuthenticatedUser();
             policy.RequireClaim("Administrator", "Administrator");
         });
-        options.AddPolicy("Manager", policy =>
+        options.AddPolicy("Teacher", policy =>
         {
             policy.RequireAuthenticatedUser();
-            policy.RequireClaim("Manager", "Manager");
+            policy.RequireClaim("Teacher", "Teacher");
         });
-        options.AddPolicy("AdminManager", policy =>
+        options.AddPolicy("Teacher", policy =>
         {
             policy.AuthenticationSchemes.Clear();
             policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);

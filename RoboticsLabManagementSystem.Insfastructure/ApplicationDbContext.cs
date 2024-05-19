@@ -5,6 +5,7 @@ using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Insfastructure.DataSeeder;
+using MailKit.Search;
 
 namespace RoboticsLabManagementSystem.Infrastructure
 {
@@ -75,6 +76,20 @@ namespace RoboticsLabManagementSystem.Infrastructure
             .HasForeignKey(p => p.EquipmentId);
 
 
+            modelBuilder.Entity<EquipmentLog>()
+                .HasMany(e => e.Items)
+                .WithOne(i => i.EquipmentLog)
+                .HasForeignKey(i => i.EquipmentLogId);
+
+            modelBuilder.Entity<EquipmentLogItem>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<User>()
+          .HasMany(u => u.ResearchResults)
+          .WithOne(rr => rr.User)
+          .HasForeignKey(rr => rr.UserId);
+        
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Company> Company { get; set; }
@@ -85,6 +100,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<EquipmentLog> EquipmentLogs { get; set; }
+        public DbSet<EquipmentLogItem> EquipmentLogItems { get; set; }
+
 
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Research> Researches { get; set; }
@@ -94,6 +111,7 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Threshold> Thresholds { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<ResearchResult> ResearchResults { get; set; }
         public DbSet<Group> Groups { get; set; }
 
     }

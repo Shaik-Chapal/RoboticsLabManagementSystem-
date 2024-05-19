@@ -20,8 +20,8 @@ namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
                 {
                     Id = 2,
                     UserId = new Guid("8FD9FC20-5382-4F44-88FD-C78993A1D8E5"),
-                    ClaimType = "ManagerAccess",
-                    ClaimValue = "Manager"
+                    ClaimType = "TeacherAccess",
+                    ClaimValue = "Teacher"
                 },
             };
 

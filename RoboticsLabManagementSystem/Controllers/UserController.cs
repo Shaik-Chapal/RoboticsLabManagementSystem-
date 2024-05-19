@@ -3,6 +3,9 @@ using RoboticsLabManagementSystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Domain.Entities;
 using RoboticsLabManagementSystem.Domain.Entities.Company;
+using Microsoft.AspNetCore.Identity;
+using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
+using System.Security.Claims;
 
 
 namespace RoboticsLabManagementSystem.Controllers
@@ -13,10 +16,31 @@ namespace RoboticsLabManagementSystem.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserController(ApplicationDbContext context)
+        public UserController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
+        [HttpGet("AllTeacher")]
+        public IActionResult GetAllTeachers()
+        {
+            var teachers = _context.ApplicationUser
+                .Join(_context.UserClaims, u => u.Id, uc => uc.UserId, (u, uc) => new { User = u, Claim = uc })
+                .Where(x => x.Claim.ClaimType == "TeacherAccess")
+                .Select(x => new 
+                {
+                    Id = x.User.Id,
+                    UserName = x.User.UserName,
+                    
+                })
+                .ToList();
+
+            return Ok(teachers);
         }
 
         // GET: api/User

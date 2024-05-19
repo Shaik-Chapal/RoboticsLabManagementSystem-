@@ -31,7 +31,22 @@
 
         public string IdNumber { get; set; }
         public string JoinDate { get; set; }
-        
+        public ICollection<ResearchResult> ResearchResults { get; set; }
+
     }
+    public class ResearchResult
+    {
+        public int Id { get; set; }
+        public string Topic { get; set; }
+        public string Result { get; set; }
+        public string Description { get; set; }
+
+        // Foreign key
+        public Guid UserId { get; set; }
+
+        // Navigation property
+        public User User { get; set; }
+    }
+
 
 }
