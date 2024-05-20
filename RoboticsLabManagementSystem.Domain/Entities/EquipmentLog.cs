@@ -14,6 +14,7 @@ namespace RoboticsLabManagementSystem.Domain.Entities
 
         [Required]
         public string Action { get; set; } // "Book", "Use", "Return", "Damage"
+        public int Approval { get; set; }
 
         [Required]
         public DateTime ActionDate { get; set; }

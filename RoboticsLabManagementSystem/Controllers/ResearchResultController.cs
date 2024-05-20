@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RoboticsLabManagementSystem.Domain.Entities;
 using RoboticsLabManagementSystem.Infrastructure;
 
@@ -36,16 +37,41 @@ namespace RoboticsLabManagementSystem.Controllers
 
             return researchResult;
         }
-
-        // POST: api/ResearchResult
         [HttpPost]
-        public async Task<ActionResult<ResearchResult>> PostResearchResult(ResearchResult researchResult)
+        public async Task<ActionResult<ResearchResult>> PostResearchResult(ResearchResultModel researchResultModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Retrieve the user from the database using the UserId
+            var user = await _context.Users.FindAsync(researchResultModel.UserId);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            // Convert the model to the entity and set the User property
+            var researchResult = new ResearchResult
+            {
+                Topic = researchResultModel.Topic,
+                Result = researchResultModel.Result,
+                Description = researchResultModel.Description,
+                UserId = researchResultModel.UserId,
+                User = user
+            };
+
+            // Log or inspect researchResult
+            Console.WriteLine($"Received ResearchResult: {JsonConvert.SerializeObject(researchResult)}");
+
             _context.ResearchResults.Add(researchResult);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetResearchResult", new { id = researchResult.Id }, researchResult);
         }
+
+
 
         // PUT: api/ResearchResult/5
         [HttpPut("{id}")]

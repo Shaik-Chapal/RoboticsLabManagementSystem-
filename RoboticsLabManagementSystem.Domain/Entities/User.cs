@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Text.Json.Serialization;
 
     public class User
     {
@@ -44,8 +45,20 @@
         // Foreign key
         public Guid UserId { get; set; }
 
-        // Navigation property
+
+        [JsonIgnore]
         public User User { get; set; }
+    }
+    public class ResearchResultModel
+    {
+        public int Id { get; set; }
+        public string Topic { get; set; }
+        public string Result { get; set; }
+        public string Description { get; set; }
+
+        // Foreign key
+        public Guid UserId { get; set; }
+
     }
 
 

@@ -71,9 +71,9 @@ namespace RoboticsLabManagementSystem.Infrastructure
                 .HasForeignKey(y => y.CompanyId);
 
             modelBuilder.Entity<PurchaseOrder>()
-            .HasOne(p => p.Equipment)
-            .WithMany(e => e.PurchaseOrders)
-            .HasForeignKey(p => p.EquipmentId);
+                .HasOne(p => p.Equipment)
+                .WithMany(e => e.PurchaseOrders)
+                .HasForeignKey(p => p.EquipmentId);
 
 
             modelBuilder.Entity<EquipmentLog>()
@@ -84,28 +84,28 @@ namespace RoboticsLabManagementSystem.Infrastructure
             modelBuilder.Entity<EquipmentLogItem>()
                 .HasKey(e => e.Id);
 
-            modelBuilder.Entity<User>()
-          .HasMany(u => u.ResearchResults)
-          .WithOne(rr => rr.User)
-          .HasForeignKey(rr => rr.UserId);
-        
+          
+            modelBuilder.Entity<ResearchResult>()
+           .HasOne(rr => rr.User)
+           .WithMany(u => u.ResearchResults)
+           .HasForeignKey(rr => rr.UserId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ResearchResult>()
+              .HasKey(e => e.Id);
+
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Company> Company { get; set; }
         public DbSet<Branch> Branch { get; set; }
-       
-
-
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<EquipmentLog> EquipmentLogs { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<EquipmentLogItem> EquipmentLogItems { get; set; }
-
-
+        public DbSet<Blog> Blogs { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Research> Researches { get; set; }
-        public DbSet<Blog> Blogs { get; set; }
         public DbSet<FeaturedContent> FeaturedContents { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<Threshold> Thresholds { get; set; }

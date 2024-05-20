@@ -28,6 +28,7 @@ namespace RoboticsLabManagementSystem.Controllers
                 Id = Guid.NewGuid(),
                 UserId = request.UserId,
                 Action = request.Action,
+                Approval = request.Approval,    
                 ActionDate = DateTime.UtcNow,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
