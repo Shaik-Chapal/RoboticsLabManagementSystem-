@@ -5,7 +5,6 @@ using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Insfastructure.DataSeeder;
-using MailKit.Search;
 
 namespace RoboticsLabManagementSystem.Infrastructure
 {
@@ -59,8 +58,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
                 FeaturedContentSeed.GetSeedData()
             );
             modelBuilder.Entity<PurchaseOrder>()
-           .Property(p => p.Price)
-           .HasColumnType("decimal(18, 2)");
+               .Property(p => p.Price)
+               .HasColumnType("decimal(18, 2)");
 
             modelBuilder.Entity<FeaturedContent>()
           .HasKey(f => f.ContentId);
@@ -86,10 +85,10 @@ namespace RoboticsLabManagementSystem.Infrastructure
 
           
             modelBuilder.Entity<ResearchResult>()
-           .HasOne(rr => rr.User)
-           .WithMany(u => u.ResearchResults)
-           .HasForeignKey(rr => rr.UserId)
-           .OnDelete(DeleteBehavior.Cascade);
+               .HasOne(rr => rr.User)
+               .WithMany(u => u.ResearchResults)
+               .HasForeignKey(rr => rr.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ResearchResult>()
               .HasKey(e => e.Id);

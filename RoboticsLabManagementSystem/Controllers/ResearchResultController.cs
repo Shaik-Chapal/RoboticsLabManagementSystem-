@@ -24,6 +24,22 @@ namespace RoboticsLabManagementSystem.Controllers
             return await _context.ResearchResults.Include(rr => rr.User).ToListAsync();
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<ResearchResult>>> GetResearchResultsByUserId(Guid userId)
+        {
+            var researchResults = await _context.ResearchResults
+                                                .Where(rr => rr.UserId == userId)
+                                                .ToListAsync();
+
+            if (!researchResults.Any())
+            {
+                return NotFound();
+            }
+
+            return researchResults;
+        }
+
+
         // GET: api/ResearchResult/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ResearchResult>> GetResearchResult(int id)
@@ -56,8 +72,12 @@ namespace RoboticsLabManagementSystem.Controllers
             var researchResult = new ResearchResult
             {
                 Topic = researchResultModel.Topic,
-                Result = researchResultModel.Result,
+                Introduction = researchResultModel.Introduction,
+                Abstract = researchResultModel.Abstract,
+                Methodology = researchResultModel.Methodology,
                 Description = researchResultModel.Description,
+                Result = researchResultModel.Result,
+                Conclusion = researchResultModel.Conclusion,
                 UserId = researchResultModel.UserId,
                 User = user
             };
@@ -75,14 +95,42 @@ namespace RoboticsLabManagementSystem.Controllers
 
         // PUT: api/ResearchResult/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResearchResult(int id, ResearchResult researchResult)
+        public async Task<IActionResult> PutResearchResult(int id, ResearchResultModel researchResultModel)
         {
-            if (id != researchResult.Id)
+            if (id != researchResultModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(researchResult).State = EntityState.Modified;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Retrieve the existing research result from the database
+            var researchResult = await _context.ResearchResults.Include(rr => rr.User).FirstOrDefaultAsync(rr => rr.Id == id);
+            if (researchResult == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure the user exists
+            var user = await _context.Users.FindAsync(researchResultModel.UserId);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            // Update the properties of the existing research result
+            researchResult.Topic = researchResultModel.Topic;
+            researchResult.Introduction = researchResultModel.Introduction;
+            researchResult.Abstract = researchResultModel.Abstract;
+            researchResult.Methodology = researchResultModel.Methodology;
+            researchResult.Description = researchResultModel.Description;
+            researchResult.Result = researchResultModel.Result;
+            researchResult.Conclusion = researchResultModel.Conclusion;
+            researchResult.UserId = researchResultModel.UserId;
+            researchResult.User = user;
 
             try
             {
@@ -102,7 +150,6 @@ namespace RoboticsLabManagementSystem.Controllers
 
             return NoContent();
         }
-
         // DELETE: api/ResearchResult/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteResearchResult(int id)

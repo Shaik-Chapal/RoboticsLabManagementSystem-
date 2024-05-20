@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Domain.Entities;
 using RoboticsLabManagementSystem.Infrastructure;
 
@@ -28,7 +29,7 @@ namespace RoboticsLabManagementSystem.Controllers
                 Id = Guid.NewGuid(),
                 UserId = request.UserId,
                 Action = request.Action,
-                Approval = request.Approval,    
+                Approval = request.Approval,
                 ActionDate = DateTime.UtcNow,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
@@ -78,6 +79,71 @@ namespace RoboticsLabManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(equipmentLog);
+           
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EquipmentLog>>> GetEquipmentLogs()
+        {
+            var equipmentLogs = await _context.EquipmentLogs
+                                              .Include(el => el.Items)
+                                              .ToListAsync();
+            return Ok(equipmentLogs);
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<EquipmentLog>>> GetEquipmentLogsByUserId(Guid userId)
+        {
+            var equipmentLogs = await _context.EquipmentLogs
+                                              .Where(el => el.UserId == userId)
+                                              .Include(el => el.Items)
+                                              .ToListAsync();
+            if (!equipmentLogs.Any())
+            {
+                return NotFound();
+            }
+            return Ok(equipmentLogs);
+        }
+
+        [HttpPut("{id}/approval")]
+        public async Task<IActionResult> UpdateApprovalStatus(Guid id, [FromBody] UpdateApprovalRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var equipmentLog = await _context.EquipmentLogs.FindAsync(id);
+            if (equipmentLog == null)
+            {
+                return NotFound();
+            }
+
+            equipmentLog.Approval = request.Approval;
+
+            _context.Entry(equipmentLog).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.EquipmentLogs.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
     }
+    public class UpdateApprovalRequest
+    {
+        public int Approval { get; set; }
+    }
+
 }

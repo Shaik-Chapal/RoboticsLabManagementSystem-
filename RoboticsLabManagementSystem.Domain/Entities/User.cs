@@ -35,12 +35,18 @@
         public ICollection<ResearchResult> ResearchResults { get; set; }
 
     }
+
     public class ResearchResult
     {
         public int Id { get; set; }
         public string Topic { get; set; }
-        public string Result { get; set; }
+        public string Introduction { get; set; }
+        public string Abstract { get; set; }
+        public string Methodology { get; set; }
         public string Description { get; set; }
+        public string Result { get; set; }
+        public string Conclusion { get; set; }
+       
 
         // Foreign key
         public Guid UserId { get; set; }
@@ -53,8 +59,12 @@
     {
         public int Id { get; set; }
         public string Topic { get; set; }
-        public string Result { get; set; }
+        public string Introduction { get; set; }
+        public string Abstract { get; set; }
+        public string Methodology { get; set; }
         public string Description { get; set; }
+        public string Result { get; set; }
+        public string Conclusion { get; set; }
 
         // Foreign key
         public Guid UserId { get; set; }

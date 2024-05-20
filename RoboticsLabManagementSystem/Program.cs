@@ -81,7 +81,9 @@ try
         {
             policy.AuthenticationSchemes.Clear();
             policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-            policy.RequireAuthenticatedUser();
+            policy.RequireAuthenticatedUser()
+            
+            ;
             policy.Requirements.Add(new AdminManagerRequirement());
         });
         options.AddPolicy("User", policy =>
