@@ -42,6 +42,23 @@ namespace RoboticsLabManagementSystem.Controllers
 
             return Ok(teachers);
         }
+        [HttpGet("AllUser")]
+        public IActionResult AllUser()
+        {
+            var teachers = _context.ApplicationUser
+                .Join(_context.UserClaims, u => u.Id, uc => uc.UserId, (u, uc) => new { User = u, Claim = uc })
+               
+                .Select(x => new
+                {
+                    Id = x.User.Id,
+                    UserName = x.User.UserName,
+
+                })
+                .ToList();
+
+            return Ok(teachers);
+        }
+
 
         // GET: api/User
         [HttpGet]
