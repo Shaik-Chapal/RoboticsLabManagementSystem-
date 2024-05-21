@@ -23,7 +23,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 EquipmentName = "DC Power Supplies",
                 Description = "High-powered DC Power Supplies for lab use",
                 Quantity = 0,
-                GroupID = new Guid("D4F37C25-6883-443D-A3E2-88966BE5D0F4"),
+              
                 Location = "Lab Room A",
   
             };
@@ -35,7 +35,7 @@ namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
                 EquipmentName = "Digital Multimeters (DMM)",
                 Description = "Digital Multimeters (DMM)",
                 Quantity = 0,
-                GroupID = new Guid("659BBDA2-5C68-4FB6-8929-0ED791BF9A24"),
+
                 Location = "Lab Room A",
 
             };

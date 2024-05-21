@@ -33,7 +33,9 @@
         public string IdNumber { get; set; }
         public string JoinDate { get; set; }
         public ICollection<ResearchResult> ResearchResults { get; set; }
-
+        // Navigation properties for messages
+        public ICollection<Message> SentMessages { get; set; }
+        public ICollection<Message> ReceivedMessages { get; set; }
     }
 
     public class ResearchResult

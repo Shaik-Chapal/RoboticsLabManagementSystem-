@@ -147,6 +147,59 @@ namespace RoboticsLabManagementSystem.Controllers
             }
         }
 
+
+
+        [HttpGet("grouped-equipment")]
+        public async Task<IActionResult> GetGroupedEquipment()
+        {
+            try
+            {
+                var groupedEquipment = await _dbContext.Groups
+                  
+                    .ToListAsync();
+
+                return Ok(groupedEquipment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching grouped equipment.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("group-equipment/{groupName}")]
+        public async Task<IActionResult> GetEquipmentByGroupName(string groupName)
+        {
+            try
+            {
+                var group = await _dbContext.Groups
+                    .FirstOrDefaultAsync(g => g.Name == groupName);
+
+                if (group == null)
+                {
+                    return NotFound();
+                }
+
+                var equipmentList = await _dbContext.Equipment
+                    .Where(e => e.GroupID == group.Name)
+                    .Select(e => new
+                    {
+                        e.EquipmentID,
+                        e.EquipmentName,
+                        e.Description,
+                        e.Quantity,
+                        e.Location
+                    })
+                    .ToListAsync();
+
+                return Ok(equipmentList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching equipment by group name.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
         // DELETE: api/v1/Equipment/{id}
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Equipment deleted successfully")]

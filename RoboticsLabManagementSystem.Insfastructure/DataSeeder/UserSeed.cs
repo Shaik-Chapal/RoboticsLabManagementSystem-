@@ -63,16 +63,16 @@ namespace RoboticsLabManagementSystem.Infrastructure.DataSeeder
             var manager = new User()
             {
                 Id = new Guid("8FD9FC20-5382-4F44-88FD-C78993A1D8E5"),
-                FirstName = "Manager",
-                LastName = "Manager",
-                Email = "manager@gmail.com",
+                FirstName = "Teacher",
+                LastName = "Teacher",
+                Email = "Teacher@gmail.com",
                 Password = "manager123",
                 PhoneNumber = "1234567890",
-                CurrentAddress = "Manager Address",
-                Department = "Manager Department",
-                Designation = "Manager",
-                Session = "Manager Session",
-                IdNumber = "Manager ID",
+                CurrentAddress = "Teacher Address",
+                Department = "Teacher Department",
+                Designation = "Teacher",
+                Session = "Teacher Session",
+                IdNumber = "Teacher ID",
                 JoinDate = DateTime.UtcNow.ToString() 
             };
 

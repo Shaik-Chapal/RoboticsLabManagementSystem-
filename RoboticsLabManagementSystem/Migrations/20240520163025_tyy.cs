@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RoboticsLabManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class abc : Migration
+    public partial class tyy : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,7 +96,7 @@ namespace RoboticsLabManagementSystem.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    GroupID = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -408,6 +408,33 @@ namespace RoboticsLabManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ResearchResults",
                 columns: table => new
                 {
@@ -438,8 +465,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "f61e1a48-b53d-417c-af3f-5c8d601021ee", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAELYOt0kyivIDSNCytKExgpxUvyGGOQdzbQGBlkThQaDVMZWanynoK4sGqBs3jX4Jog==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "81f132cf-d99c-427a-9166-7fdd41ff5724", "Teacher@gmail.com", true, true, null, "Teacher@GMAIL.COM", "Teacher", "AQAAAAIAAYagAAAAEEQhQd7N89mY34PkuBzCsIBseZ4OxGUvEDkYd9HREpOd2bBVB43qSRXVNABc94ChwQ==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "Teacher" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), 0, "d9f1cc14-5811-44c7-802f-5ad1a2b8d50d", "admin@gmail.com", true, true, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEFYTLSl3o/GOygkXVsjC/FIBEilmVyZLOpy+gILzflagRX+JjJWQrq+bwe66802O9Q==", "1234567890", false, "BFCC7B453A8B4B6C8A4C93EE28A3B4A8", false, "admin" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), 0, "6de48665-69f5-45ab-a94d-6b567972fae0", "Teacher@gmail.com", true, true, null, "Teacher@GMAIL.COM", "Teacher", "AQAAAAIAAYagAAAAEMrw8YFzelnc4JU9vnvtDJf8oy0sgzSkKobsGbuufy6N3WO6Ymfo20s5KCMNul4WLQ==", "1234567890", false, "FC37C84E276C4D978DF9054129D0CB23", false, "Teacher" }
                 });
 
             migrationBuilder.InsertData(
@@ -447,8 +474,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "BlogId", "Author", "Content", "PublicationDate", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("33d16a47-c372-4a58-8504-447ffb7268d3"), "Alice Johnson", "Content of the blog post 1", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(8972), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 1" },
-                    { new Guid("77456363-05f5-4af8-950d-77229597703a"), "Bob Williams", "Content of the blog post 2", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(8976), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 2" }
+                    { new Guid("83a53d33-2947-46c4-bf37-d62be6419d2f"), "Alice Johnson", "Content of the blog post 1", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(9042), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 1" },
+                    { new Guid("945b2c4f-c332-4c2c-92b2-63fde6512ddd"), "Bob Williams", "Content of the blog post 2", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(9045), "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Blog Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -461,8 +488,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "ContentId", "Author", "ContentType", "FullContentLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("682cfffa-3e03-4a04-83cc-80193e4e0059"), "Eva Brown", "Blog", "http://example.com/featured1", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(9012), "Summary of the featured content 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 1" },
-                    { new Guid("a51b9a7e-2c4b-4db4-a360-a475be576eef"), "David Miller", "Research", "http://example.com/featured2", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(9015), "Summary of the featured content 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 2" }
+                    { new Guid("20d93109-ad5e-4596-b3a7-491b81310951"), "Eva Brown", "Blog", "http://example.com/featured1", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(9200), "Summary of the featured content 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 1" },
+                    { new Guid("b20c353c-0036-4101-b78f-ce2e86282c86"), "David Miller", "Research", "http://example.com/featured2", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(9206), "Summary of the featured content 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Featured Content Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -470,8 +497,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("8bc989b0-9a92-4469-9263-7fc9500c1dc4"), "Multimeters" },
-                    { new Guid("8ff83fcc-873c-4c1c-970d-942e0342f978"), "Power Supplies" }
+                    { new Guid("98ab386b-8666-40b1-a503-b25994774350"), "Multimeters" },
+                    { new Guid("be2fc918-9c83-4c68-b96b-a68c1b7f0e97"), "Power Supplies" }
                 });
 
             migrationBuilder.InsertData(
@@ -479,8 +506,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "HolidayId", "Date", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("35f144a7-7272-4f82-be79-e0e22b23dc5a"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year's Day" },
-                    { new Guid("cbef2582-8547-4cae-a7b7-96f434b9ffc5"), new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Christmas" }
+                    { new Guid("31036f10-f781-470b-8d0f-19253883b407"), new DateTime(2024, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Christmas" },
+                    { new Guid("fb9c1b29-0916-46c9-acd5-bd6b05911234"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year's Day" }
                 });
 
             migrationBuilder.InsertData(
@@ -488,8 +515,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "ResearchId", "Authors", "FullTextLink", "PublicationDate", "Summary", "ThumbnailImage", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("513b0d87-297b-4d28-9840-78873d102955"), "John Doe", "http://example.com/research1", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(8856), "Summary of the research article 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 1" },
-                    { new Guid("9e55f602-49ee-42fd-8b6a-4c3a176b2f78"), "Jane Smith", "http://example.com/research2", new DateTime(2024, 5, 20, 12, 56, 51, 424, DateTimeKind.Local).AddTicks(8933), "Summary of the research article 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 2" }
+                    { new Guid("224b1f68-a666-4ceb-b544-2d2f06f2192d"), "John Doe", "http://example.com/research1", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(8981), "Summary of the research article 1", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 1" },
+                    { new Guid("9e54008d-aa20-4f9c-9167-892cbf44330f"), "Jane Smith", "http://example.com/research2", new DateTime(2024, 5, 20, 22, 30, 22, 992, DateTimeKind.Local).AddTicks(8991), "Summary of the research article 2", "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60", "Sample Research Title 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -497,8 +524,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "SupplierId", "Address", "ContactPerson", "CreatedAt", "Email", "Name", "Phone" },
                 values: new object[,]
                 {
-                    { new Guid("824d5f68-30d2-43e8-9a15-bdabd7c3504b"), "456 Elm Street, City, Country", "Jane Smith", new DateTime(2024, 5, 20, 6, 56, 51, 424, DateTimeKind.Utc).AddTicks(8699), "jane.smith@example.com", "Supplier B", "+0987654321" },
-                    { new Guid("aacbf8e0-02ea-401f-9af4-a56ae6fc8d17"), "123 Main Street, City, Country", "John Doe", new DateTime(2024, 5, 20, 6, 56, 51, 424, DateTimeKind.Utc).AddTicks(8694), "john.doe@example.com", "Supplier A", "+1234567890" }
+                    { new Guid("9c63799c-fb95-455c-afe5-c0e6cffc288e"), "456 Elm Street, City, Country", "Jane Smith", new DateTime(2024, 5, 20, 16, 30, 22, 992, DateTimeKind.Utc).AddTicks(8658), "jane.smith@example.com", "Supplier B", "+0987654321" },
+                    { new Guid("c434c6a8-c1e3-46be-85de-142f7af3c3f9"), "123 Main Street, City, Country", "John Doe", new DateTime(2024, 5, 20, 16, 30, 22, 992, DateTimeKind.Utc).AddTicks(8652), "john.doe@example.com", "Supplier A", "+1234567890" }
                 });
 
             migrationBuilder.InsertData(
@@ -506,8 +533,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "CurrentAddress", "Department", "Designation", "Email", "FirstName", "IdNumber", "JoinDate", "LastName", "Password", "PhoneNumber", "Session" },
                 values: new object[,]
                 {
-                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), "Admin Address", "Admin Department", "Admin", "admin@gmail.com", "Admin", "Admin ID", "20/05/2024 6:56:51 AM", "Admin", "admin123", "1234567890", "Admin Session" },
-                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), "Manager Address", "Manager Department", "Manager", "manager@gmail.com", "Manager", "Manager ID", "20/05/2024 6:56:51 AM", "Manager", "manager123", "1234567890", "Manager Session" }
+                    { new Guid("17fa016f-ae8b-4044-80e3-abd54dfe392f"), "Admin Address", "Admin Department", "Admin", "admin@gmail.com", "Admin", "Admin ID", "5/20/2024 4:30:22 PM", "Admin", "admin123", "1234567890", "Admin Session" },
+                    { new Guid("8fd9fc20-5382-4f44-88fd-c78993a1d8e5"), "Teacher Address", "Teacher Department", "Teacher", "Teacher@gmail.com", "Teacher", "Teacher ID", "5/20/2024 4:30:22 PM", "Teacher", "manager123", "1234567890", "Teacher Session" }
                 });
 
             migrationBuilder.InsertData(
@@ -524,8 +551,8 @@ namespace RoboticsLabManagementSystem.Migrations
                 columns: new[] { "Id", "Address", "CompanyId", "Name", "Phone" },
                 values: new object[,]
                 {
-                    { new Guid("04421d2c-1fda-4e1b-b9cd-6183ca9d82f2"), "Address of EEE branch", new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "EEE", "9876543210" },
-                    { new Guid("c7247893-58dd-4291-a8a2-aa7e6f384325"), "Address of CSE branch", new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "CSE", "1234567890" }
+                    { new Guid("410bcdef-0d34-4e28-b2de-d4a481bc5dec"), "Address of EEE branch", new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "EEE", "9876543210" },
+                    { new Guid("fa7f0d92-6c54-49e4-ab33-c1a1ac461da7"), "Address of CSE branch", new Guid("f00918a5-3a59-4e3c-9a47-cf36930e7add"), "CSE", "1234567890" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -578,6 +605,16 @@ namespace RoboticsLabManagementSystem.Migrations
                 column: "EquipmentLogId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrders_EquipmentId",
                 table: "PurchaseOrders",
                 column: "EquipmentId");
@@ -623,6 +660,9 @@ namespace RoboticsLabManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Holidays");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "PurchaseOrders");

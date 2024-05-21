@@ -16,6 +16,68 @@ namespace RoboticsLabManagementSystem.Controllers
             _context = context;
         }
 
+        [HttpGet("equipment-summary")]
+        public async Task<IActionResult> GetEquipmentSummary()
+        {
+            try
+            {
+                var equipmentSummary = await _context.Equipment
+                    .Select(e => new
+                    {
+                        EquipmentID = e.EquipmentID,
+                        EquipmentName = e.EquipmentName,
+                        EquipmentToTal = e.Quantity,
+                        BookedCount = _context.EquipmentLogs.Count(log => log.Action == "Book" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
+                        UsedCount = _context.EquipmentLogs.Count(log => log.Action == "Use" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
+                        ReturnedCount = _context.EquipmentLogs.Count(log => log.Action == "Return" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
+                        DamagedCount = _context.EquipmentLogs.Count(log => log.Action == "Damage" && log.Items.Any(item => item.EquipmentId == e.EquipmentID))
+                    })
+                    .ToListAsync();
+
+                return Ok(equipmentSummary);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("equipment-status")]
+        public async Task<IActionResult> GetEquipmentStatus()
+        {
+            try
+            {
+                var equipmentStatus = await _context.Equipment
+                    .Select(e => new
+                    {
+                        EquipmentID = e.EquipmentID,
+                        EquipmentName = e.EquipmentName,
+                        EquipmentToTal = e.Quantity,
+                        Status = e.Quantity < 5 ? "Low Stock" : "Available",
+                        DamagedCount = _context.EquipmentLogs.Count(log => log.Action == "Damage" && log.Items.Any(item => item.EquipmentId == e.EquipmentID))
+                    })
+                    .ToListAsync();
+
+              
+                var adjustedEquipmentStatus = equipmentStatus.Select(e => new
+                {
+                    e.EquipmentID,
+                    e.EquipmentName,
+                    e.EquipmentToTal,
+                    Status = e.DamagedCount > 0 ? "Damaged" : e.Status,
+                    e.DamagedCount
+                });
+
+                return Ok(adjustedEquipmentStatus);
+            }
+            catch (Exception ex)
+            {
+               
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> LogEquipmentUsage([FromBody] EquipmentLogRequest request)
         {
