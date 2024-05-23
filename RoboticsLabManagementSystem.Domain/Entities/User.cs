@@ -36,6 +36,7 @@
         // Navigation properties for messages
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
 
     public class ResearchResult

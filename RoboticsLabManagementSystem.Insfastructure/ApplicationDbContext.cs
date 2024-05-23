@@ -5,6 +5,7 @@ using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Insfastructure.DataSeeder;
+using ChatAppServer.WebAPI.Models;
 
 namespace RoboticsLabManagementSystem.Infrastructure
 {
@@ -124,7 +125,8 @@ namespace RoboticsLabManagementSystem.Infrastructure
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<ResearchResult> ResearchResults { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<Message> Messages { get; set; }
+      
+        public DbSet<Chat> Chats { get; set; }
 
     }
 }

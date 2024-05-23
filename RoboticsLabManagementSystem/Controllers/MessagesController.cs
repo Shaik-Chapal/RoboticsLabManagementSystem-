@@ -5,76 +5,62 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Domain.Entities;
 using RoboticsLabManagementSystem.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
+using RoboticsLabManagementSystem.Hubs;
+using ChatAppServer.WebAPI.Models;
+using ChatAppServer.WebAPI.Dtos;
+using Microsoft.AspNetCore.Cors;
 
 namespace RoboticsLabManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [EnableCors("AllowSites")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MessagesController : ControllerBase
+    public sealed class ChatsController(
+    ApplicationDbContext context,
+    IHubContext<ChatHub> hubContext) : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public MessagesController(ApplicationDbContext context)
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
         {
-            _context = context;
+            List<User> users = await context.Users.OrderBy(p => p.FirstName).ToListAsync();
+            return Ok(users);
         }
 
-        // POST: api/Messages/send
-        [HttpPost("send")]
-        public async Task<IActionResult> SendMessage([FromBody] MessageCreateDto messageDto)
+        [HttpGet]
+        public async Task<IActionResult> GetChats(Guid userId, Guid toUserId, CancellationToken cancellationToken)
         {
-            if (messageDto == null || string.IsNullOrWhiteSpace(messageDto.Content))
-            {
-                return BadRequest("Invalid message content.");
-            }
+            List<Chat> chats =
+                await context
+                    .Chats
+                    .Where(p =>
+                        p.UserId == userId && p.ToUserId == toUserId ||
+                        p.ToUserId == userId && p.UserId == toUserId)
+                    .OrderBy(p => p.Date)
+                    .ToListAsync(cancellationToken);
 
-            var message = new Message
+            return Ok(chats);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(SendMessageDto request, CancellationToken cancellationToken)
+        {
+            Chat chat = new()
             {
-                Id = Guid.NewGuid(),
-                SenderId = messageDto.SenderId,
-                ReceiverId = messageDto.ReceiverId,
-                Content = messageDto.Content,
-                SentAt = DateTime.UtcNow
+                UserId = request.UserId,
+                ToUserId = request.ToUserId,
+                Message = request.Message,
+                Date = DateTime.Now
             };
 
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
+            await context.AddAsync(chat, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-            return Ok(message);
-        }
+            string connectionId = ChatHub.Users.First(p => p.Value == chat.ToUserId).Key;
 
-        // GET: api/Messages/received/{receiverId}
-        [HttpGet("received/{receiverId}")]
-        public async Task<IActionResult> GetReceivedMessages(Guid receiverId)
-        {
-            var messages = await _context.Messages
-                .Where(m => m.ReceiverId == receiverId)
-                .Include(m => m.Sender)
-                .ToListAsync();
+            await hubContext.Clients.Client(connectionId).SendAsync("Messages", chat);
 
-            if (messages == null || messages.Count == 0)
-            {
-                return NotFound("No messages found for the specified receiver.");
-            }
-
-            return Ok(messages);
-        }
-
-        // GET: api/Messages/sent/{senderId}
-        [HttpGet("sent/{senderId}")]
-        public async Task<IActionResult> GetSentMessages(Guid senderId)
-        {
-            var messages = await _context.Messages
-                .Where(m => m.SenderId == senderId)
-                .Include(m => m.Receiver)
-                .ToListAsync();
-
-            if (messages == null || messages.Count == 0)
-            {
-                return NotFound("No messages found for the specified sender.");
-            }
-
-            return Ok(messages);
+            return Ok(chat);
         }
     }
 }

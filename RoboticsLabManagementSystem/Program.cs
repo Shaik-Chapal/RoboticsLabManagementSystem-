@@ -19,7 +19,7 @@ using RoboticsLabManagementSystem.Domain.Utilities;
 using FluentValidation.AspNetCore;
 using Autofac.Core;
 using RoboticsLabManagementSystem.Controllers;
-
+using RoboticsLabManagementSystem.Hubs;
 
 
 
@@ -81,9 +81,7 @@ try
         {
             policy.AuthenticationSchemes.Clear();
             policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-            policy.RequireAuthenticatedUser()
-            
-            ;
+            policy.RequireAuthenticatedUser();
             policy.Requirements.Add(new AdminManagerRequirement());
         });
         options.AddPolicy("User", policy =>
@@ -93,7 +91,6 @@ try
         });
     });
 
-
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowSites",
@@ -101,14 +98,13 @@ try
             {
                 builder.WithOrigins("http://localhost:4200", "https://localhost:7307", "https://localhost:7070", "http://localhost:5173")
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowCredentials(); // This line allows credentials
             });
     });
 
-
     builder.Services.AddSingleton<IAuthorizationHandler, AdminManagerRequirementHandler>();
     builder.Services.AddScoped<IResearchService, ResearchService>();
-
 
     builder.Services.AddControllers()
        .AddFluentValidation(x =>
@@ -118,6 +114,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.Configure<Smtp>(builder.Configuration.GetSection("Smtp"));
+    builder.Services.AddSignalR();
 
     var app = builder.Build();
 
@@ -138,6 +135,7 @@ try
     app.UseAuthorization();
     app.MapControllers();
     Log.Information("API Project Starting...");
+    app.MapHub<ChatHub>("/chat-hub");
     app.Run();
 }
 catch (Exception ex)
