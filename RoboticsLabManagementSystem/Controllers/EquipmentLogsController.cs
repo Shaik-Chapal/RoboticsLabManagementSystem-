@@ -26,11 +26,19 @@ namespace RoboticsLabManagementSystem.Controllers
                     {
                         EquipmentID = e.EquipmentID,
                         EquipmentName = e.EquipmentName,
-                        EquipmentToTal = e.Quantity,
-                        BookedCount = _context.EquipmentLogs.Count(log => log.Action == "Book" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
-                        UsedCount = _context.EquipmentLogs.Count(log => log.Action == "Use" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
-                        ReturnedCount = _context.EquipmentLogs.Count(log => log.Action == "Return" && log.Items.Any(item => item.EquipmentId == e.EquipmentID)),
-                        DamagedCount = _context.EquipmentLogs.Count(log => log.Action == "Damage" && log.Items.Any(item => item.EquipmentId == e.EquipmentID))
+                        EquipmentTotal = e.Quantity,
+                        BookedCount = _context.EquipmentLogItems
+                            .Where(item => item.EquipmentId == e.EquipmentID && item.EquipmentLog.Action == "Book" && item.EquipmentLog.Approval == 1)
+                            .Count(),
+                        UsedCount = _context.EquipmentLogItems
+                            .Where(item => item.EquipmentId == e.EquipmentID && item.EquipmentLog.Action == "Use" && item.EquipmentLog.Approval == 1)
+                            .Count(),
+                        ReturnedCount = _context.EquipmentLogItems
+                            .Where(item => item.EquipmentId == e.EquipmentID && item.EquipmentLog.Action == "Return" && item.EquipmentLog.Approval == 1)
+                            .Count(),
+                        DamagedCount = _context.EquipmentLogItems
+                            .Where(item => item.EquipmentId == e.EquipmentID && item.EquipmentLog.Action == "Damage" && item.EquipmentLog.Approval == 1)
+                            .Count()
                     })
                     .ToListAsync();
 
@@ -38,11 +46,9 @@ namespace RoboticsLabManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                
                 return StatusCode(500, "Internal server error");
             }
         }
-
         [HttpGet("equipment-status")]
         public async Task<IActionResult> GetEquipmentStatus()
         {
@@ -118,17 +124,17 @@ namespace RoboticsLabManagementSystem.Controllers
                         {
                             return BadRequest($"Not enough quantity for equipment ID {item.EquipmentId}. Available: {equipment.Quantity}, Requested: {item.Quantity}");
                         }
-                        equipment.Quantity -= item.Quantity;
+                        //equipment.Quantity -= item.Quantity;
                         break;
                     case "return":
-                        equipment.Quantity += item.Quantity;
+                        //equipment.Quantity += item.Quantity;
                         break;
                     case "damage":
                         if (equipment.Quantity < item.Quantity)
                         {
-                            return BadRequest($"Not enough quantity for equipment ID {item.EquipmentId}. Available: {equipment.Quantity}, Reported Damage: {item.Quantity}");
+                        //    return BadRequest($"Not enough quantity for equipment ID {item.EquipmentId}. Available: {equipment.Quantity}, Reported Damage: {item.Quantity}");
                         }
-                        equipment.Quantity -= item.Quantity;
+                        //equipment.Quantity -= item.Quantity;
                         break;
                     default:
                         return BadRequest("Invalid action. Allowed actions are: Book, Use, Return, Damage.");
@@ -178,6 +184,50 @@ namespace RoboticsLabManagementSystem.Controllers
             if (equipmentLog == null)
             {
                 return NotFound();
+            }
+
+            var equipmentLogItems = _context.EquipmentLogItems
+                .Where(item => item.EquipmentLogId == id)
+                .ToList();
+
+            if (equipmentLogItems == null || !equipmentLogItems.Any())
+            {
+                return NotFound("No equipment items found for the given log.");
+            }
+
+            foreach (var item in equipmentLogItems)
+            {
+                var equipment = await _context.Equipment.FindAsync(item.EquipmentId);
+                if (equipment == null)
+                {
+                    return NotFound($"No equipment found with ID {item.EquipmentId}");
+                }
+
+                switch (equipmentLog.Action.ToLower())
+                {
+                    case "book":
+                    case "use":
+                        if (equipment.Quantity < item.Quantity)
+                        {
+                            return BadRequest($"Insufficient quantity for equipment ID {item.EquipmentId}");
+                        }
+                        equipment.Quantity -= item.Quantity;
+                        break;
+                    case "return":
+                        equipment.Quantity += item.Quantity;
+                        break;
+                    case "damage":
+                        if (equipment.Quantity < item.Quantity)
+                        {
+                            return BadRequest($"Insufficient quantity for equipment ID {item.EquipmentId}");
+                        }
+                        equipment.Quantity -= item.Quantity;
+                        break;
+                    default:
+                        return BadRequest("Invalid action. Allowed actions are: Book, Use, Return, Damage.");
+                }
+
+                _context.Entry(equipment).State = EntityState.Modified;
             }
 
             equipmentLog.Approval = request.Approval;

@@ -25,22 +25,94 @@ namespace RoboticsLabManagementSystem.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
-
-        [HttpGet("AllTeacher")]
-        public IActionResult GetAllTeachers()
+        //StudentAccess
+        [HttpGet("AllStudent")]
+        public IActionResult GetAllStudent()
         {
-            var teachers = _context.ApplicationUser
+            var teachers = _context.Users
                 .Join(_context.UserClaims, u => u.Id, uc => uc.UserId, (u, uc) => new { User = u, Claim = uc })
-                .Where(x => x.Claim.ClaimType == "TeacherAccess")
-                .Select(x => new 
+                .Where(x => x.Claim.ClaimType == "StudentAccess" )
+                .Select(x => new
                 {
                     Id = x.User.Id,
-                    UserName = x.User.UserName,
-                    
+                    UserName = x.User.FirstName + " " + x.User.LastName,
+                    Uid = x.User.IdNumber,
+                    Status = x.User.Status,
+                    Session = x.User.Session,
                 })
                 .ToList();
 
             return Ok(teachers);
+        }
+
+        [HttpGet("AllStaff")]
+        public IActionResult GetAllStaff()
+        {
+            var teachers = _context.Users
+                .Join(_context.UserClaims, u => u.Id, uc => uc.UserId, (u, uc) => new { User = u, Claim = uc })
+                .Where(x => x.Claim.ClaimType == "StaffAccess")
+                .Select(x => new
+                {
+                    Id = x.User.Id,
+                    UserName = x.User.FirstName + " " + x.User.LastName,
+                    Uid = x.User.IdNumber,
+                    Status = x.User.Status,
+                    Session = x.User.Session,
+                })
+                .ToList();
+
+            return Ok(teachers);
+        }
+
+
+        [HttpGet("AllTeacher")]
+        public IActionResult GetAllTeachers()
+        {
+            var teachers = _context.Users
+                .Join(_context.UserClaims, u => u.Id, uc => uc.UserId, (u, uc) => new { User = u, Claim = uc })
+                .Where(x => x.Claim.ClaimType == "TeacherAccess" )
+                .Select(x => new
+                {
+                    Id = x.User.Id,
+                    UserName = x.User.FirstName + " " + x.User.LastName,
+                    Uid = x.User.IdNumber,
+                    Status = x.User.Status,
+                    Session = x.User.Session,
+                })
+                .ToList();
+
+            return Ok(teachers);
+        }
+
+
+        [HttpPost("ActivateTeacher/{id}")]
+        public async Task<IActionResult> ActivateTeacher(Guid id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Status = "active";
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
+        }
+
+        [HttpPost("DeactivateTeacher/{id}")]
+        public async Task<IActionResult> DeactivateTeacher(Guid id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Status = "inactive";
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
         }
         [HttpGet("AllUser")]
         public IActionResult AllUser()

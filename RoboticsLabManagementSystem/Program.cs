@@ -92,35 +92,30 @@ try
         });
     });
 
-    //builder.Services.AddCors(options =>
-    //{
-    //    options.AddPolicy("AllowSites",
-    //        corsBuilder =>
-    //        {
-    //            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowSites",
+            corsBuilder =>
+            {
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-    //            if (environment == "Development")
-    //            {
-    //                corsBuilder.WithOrigins(
-    //                    "https://localhost:4200",
-    //                    "https://localhost:7307",
-    //                    "https://localhost:7070",
-    //                    "http://localhost:5173"
-    //                );
-    //            }
-    //            else if (environment == "Production")
-    //            {
-    //                corsBuilder.WithOrigins(
-    //                    "http://www.rlms.skygreenblue.xyz"
-    //                );
-    //            }
+               
+                    corsBuilder.WithOrigins(
+                        "https://localhost:4200",
+                        "https://localhost:7307",
+                        "https://localhost:7070",
+                        "https://localhost:7161",
+                        "http://localhost:5173",
+                        "http://www.rlms.skygreenblue.xyz"
+                    );
+              
 
-    //            corsBuilder
-    //                .AllowAnyMethod()
-    //                .AllowAnyHeader()
-    //                .AllowCredentials(); // This line allows credentials
-    //        });
-    //});
+                corsBuilder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials(); // This line allows credentials
+            });
+    });
 
     builder.Services.AddSingleton<IAuthorizationHandler, AdminManagerRequirementHandler>();
     builder.Services.AddScoped<IResearchService, ResearchService>();
@@ -147,7 +142,7 @@ try
         app.UseSwaggerUI();
     }
 
-    // app.UseCors("AllowSites");
+    app.UseCors("AllowSites");
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
