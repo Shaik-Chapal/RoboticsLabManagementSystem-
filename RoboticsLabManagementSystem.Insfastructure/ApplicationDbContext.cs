@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RoboticsLabManagementSystem.Insfastructure.DataSeeder;
 using ChatAppServer.WebAPI.Models;
+using RoboticsLabManagementSystem.Insfastructure.Extensions;
 
 namespace RoboticsLabManagementSystem.Infrastructure
 {
@@ -36,6 +37,11 @@ namespace RoboticsLabManagementSystem.Infrastructure
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.SetDefaultSchema("skygreen");
+
+
+
             modelBuilder.Entity<ApplicationUser>().HasData(UserSeed.Users());
             modelBuilder.Entity<User>().HasData(UserDataSeed.Users());
             modelBuilder.Entity<ApplicationUserClaim>().HasData(UserClaimSeed.Claims());

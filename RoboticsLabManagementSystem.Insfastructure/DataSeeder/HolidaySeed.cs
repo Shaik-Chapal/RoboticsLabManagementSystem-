@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RoboticsLabManagementSystem.Domain.Entities;
-using System;
-using System.Collections.Generic;
+﻿using RoboticsLabManagementSystem.Domain.Entities;
 
 namespace RoboticsLabManagementSystem.Insfastructure.DataSeeder
 {

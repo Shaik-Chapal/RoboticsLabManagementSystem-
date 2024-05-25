@@ -71,6 +71,10 @@ namespace RoboticsLabManagementSystem.Controllers
                         claims.Add(new Claim("StudentAccess", "Student"));
                        
                         break;
+                    case UserRole.Teacher:
+                        claims.Add(new Claim("TeacherAccess", "Teacher"));
+
+                        break;
                     default:
                         return BadRequest(new { status = "error", message = "Invalid user role specified" });
                 }

@@ -21,6 +21,7 @@ namespace RoboticsLabManagementSystem.RequestHandler
     public enum UserRole
     {
         Staff,
-        Student
+        Student,
+        Teacher
     }
 }

@@ -22,9 +22,9 @@ using RoboticsLabManagementSystem.Controllers;
 using RoboticsLabManagementSystem.Hubs;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
-//Serilog configuration
+
+// Serilog configuration
 builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -46,8 +46,8 @@ try
     });
 
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-      options.UseSqlServer(connectionString,
-      (x) => x.MigrationsAssembly(migrationAssembly)));
+        options.UseSqlServer(connectionString, x => x.MigrationsAssembly(migrationAssembly)));
+
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     builder.Services.AddIdentity();
     builder.Services.AddAuthentication()
@@ -65,6 +65,7 @@ try
                 ValidAudience = builder.Configuration["Jwt:Audience"],
             };
         });
+
     builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("Administrator", policy =>
@@ -77,7 +78,7 @@ try
             policy.RequireAuthenticatedUser();
             policy.RequireClaim("Teacher", "Teacher");
         });
-        options.AddPolicy("Teacher", policy =>
+        options.AddPolicy("TeacherWithScheme", policy =>
         {
             policy.AuthenticationSchemes.Clear();
             policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
@@ -91,26 +92,43 @@ try
         });
     });
 
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowSites",
-            builder =>
-            {
-                builder.WithOrigins("http://localhost:4200", "https://localhost:7307", "https://localhost:7070", "http://localhost:5173")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials(); // This line allows credentials
-            });
-    });
+    //builder.Services.AddCors(options =>
+    //{
+    //    options.AddPolicy("AllowSites",
+    //        corsBuilder =>
+    //        {
+    //            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+    //            if (environment == "Development")
+    //            {
+    //                corsBuilder.WithOrigins(
+    //                    "https://localhost:4200",
+    //                    "https://localhost:7307",
+    //                    "https://localhost:7070",
+    //                    "http://localhost:5173"
+    //                );
+    //            }
+    //            else if (environment == "Production")
+    //            {
+    //                corsBuilder.WithOrigins(
+    //                    "http://www.rlms.skygreenblue.xyz"
+    //                );
+    //            }
+
+    //            corsBuilder
+    //                .AllowAnyMethod()
+    //                .AllowAnyHeader()
+    //                .AllowCredentials(); // This line allows credentials
+    //        });
+    //});
 
     builder.Services.AddSingleton<IAuthorizationHandler, AdminManagerRequirementHandler>();
     builder.Services.AddScoped<IResearchService, ResearchService>();
 
     builder.Services.AddControllers()
-       .AddFluentValidation(x =>
-        x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+        .AddFluentValidation(x => x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-    builder.AddSwagger();
+   // builder.AddSwagger();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.Configure<Smtp>(builder.Configuration.GetSection("Smtp"));
@@ -121,15 +139,15 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Robotics Lab Management System API Server V1");
-            c.DocumentTitle = "Robotics Lab Management System Api";
-            c.DocExpansion(DocExpansion.None);
-        });
+        app.UseSwaggerUI();
+    }
+    else
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 
-    app.UseCors("AllowSites");
+    // app.UseCors("AllowSites");
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
