@@ -33,6 +33,12 @@ Before you begin, ensure you have the following installed on your local machine:
 - [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/)
 
+
+Live Demo Here:
+
+- [Click](http://www.rlms.skygreenblue.xyz/swagger/index.html)
+
+
 ### Installation
 
 1. **Clone the repository:**
@@ -41,7 +47,4 @@ Before you begin, ensure you have the following installed on your local machine:
    git clone https://github.com/Shaik-Chapal/RoboticsLabManagementSystem-.git
    cd RoboticsLabManagementSystem-
 ```
-2. **Live Demo Here:**
-  ```bash
-http://www.rlms.skygreenblue.xyz/swagger/index.html
-```
+
