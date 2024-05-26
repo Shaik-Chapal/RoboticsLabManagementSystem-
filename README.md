@@ -47,6 +47,6 @@ Live Demo Here:
 
    ```bash
    git clone https://github.com/Shaik-Chapal/RoboticsLabManagementSystem-.git
-   cd RoboticsLabManagementSystem-
-```
+   
+
 
