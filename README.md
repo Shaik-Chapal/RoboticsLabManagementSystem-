@@ -38,6 +38,8 @@ Live Demo Here:
 
 - [Click](http://www.rlms.skygreenblue.xyz/swagger/index.html)
 
+  Email = admin@gmail.com
+  Password = #s1234
 
 ### Installation
 
