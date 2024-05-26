@@ -42,4 +42,6 @@ Before you begin, ensure you have the following installed on your local machine:
    cd RoboticsLabManagementSystem-
 ```
 2. **Live Demo Here:**
-- [Click](http://www.rlms.skygreenblue.xyz/swagger/index.html)
+  ```bash
+http://www.rlms.skygreenblue.xyz/swagger/index.html
+```
