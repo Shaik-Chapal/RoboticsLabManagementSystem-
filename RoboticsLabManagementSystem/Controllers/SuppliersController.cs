@@ -36,11 +36,15 @@ namespace RoboticsLabManagementSystem.Controllers
 
             return supplier;
         }
-
         // POST: api/Suppliers
         [HttpPost]
         public async Task<ActionResult<Supplier>> PostSupplier(Supplier supplier)
         {
+            if (_context.Supplier.Any(s => s.Name == supplier.Name))
+            {
+                return Conflict(new { message = "A supplier with this name already exists." });
+            }
+
             _context.Supplier.Add(supplier);
             await _context.SaveChangesAsync();
 
@@ -54,6 +58,11 @@ namespace RoboticsLabManagementSystem.Controllers
             if (id != supplier.SupplierId)
             {
                 return BadRequest();
+            }
+
+            if (_context.Supplier.Any(s => s.Name == supplier.Name && s.SupplierId != id))
+            {
+                return Conflict(new { message = "A supplier with this name already exists." });
             }
 
             _context.Entry(supplier).State = EntityState.Modified;

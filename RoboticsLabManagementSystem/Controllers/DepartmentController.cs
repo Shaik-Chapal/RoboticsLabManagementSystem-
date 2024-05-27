@@ -129,7 +129,7 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
         ///       "hasNext": false
         ///     }
         /// </remarks>
-        [Authorize(Policy = "AdminManager")]
+      //  [Authorize(Policy = "AdminManager")]
         [HttpPost("list")]
         [SwaggerResponse(StatusCodes.Status200OK, "Branches retrieved successfully", typeof(GetBranchRequestHandler))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "No branches found", typeof(IResult))]
@@ -214,7 +214,7 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
         ///       "phone": "8888"
         ///     }
         /// </remarks>
-        [Authorize(Policy = "AdminManager")]
+       // [Authorize(Policy = "AdminManager")]
         [HttpPut("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Branch information updated successfully", typeof(void))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the update process", typeof(IResult))]
@@ -247,7 +247,7 @@ namespace RoboticsLabManagementSystem.Api.Controllers.Admin
         /// <remarks>
         /// This endpoint deletes a specific branch.
         /// </remarks>
-        [Authorize(Policy = "AdminManager")]
+       // [Authorize(Policy = "AdminManager")]
         [HttpDelete("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Branch deleted successfully", typeof(void))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Error during the delete process", typeof(IResult))]

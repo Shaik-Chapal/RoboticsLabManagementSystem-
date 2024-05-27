@@ -6,6 +6,7 @@ using RoboticsLabManagementSystem.Domain.Entities.Company;
 using Microsoft.AspNetCore.Identity;
 using RoboticsLabManagementSystem.Infrastructure.Features.Membership;
 using System.Security.Claims;
+using RoboticsLabManagementSystem.Dto;
 
 
 namespace RoboticsLabManagementSystem.Controllers
@@ -143,6 +144,35 @@ namespace RoboticsLabManagementSystem.Controllers
         public async Task<ActionResult<IEnumerable<Branch>>> GetBranchs()
         {
             return await _context.Branch.ToListAsync();
+        }
+        // PUT: api/Companies/5
+        [HttpPut("University/{id}")]
+        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] UniversityUpdateDto companyDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var company = await _context.Company.FindAsync(id);
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            company.Name = companyDto.Name;
+            company.Email = companyDto.Email;
+            company.Phone = companyDto.Phone;
+            company.Address = companyDto.Address;
+            company.OpenTime = companyDto.OpenTime;
+            company.CloseTime = companyDto.CloseTime;
+            company.LogoUrl = companyDto.LogoUrl;
+            company.Website = companyDto.Website;
+
+            _context.Entry(company).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         // GET: api/User/5
