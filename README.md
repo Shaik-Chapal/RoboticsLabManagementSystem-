@@ -36,7 +36,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 Live Demo Here:
 
-- [Click](http://www.rlms.skygreenblue.xyz/swagger/index.html)
+- [Click](https://rlms.skygreenblue.xyz/swagger/index.html)
 
   Email = admin@gmail.com
   Password = #s1234
